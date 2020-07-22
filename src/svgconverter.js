@@ -1,3 +1,7 @@
+// import Format from './indent'
+// console.log('Format:', Format)
+const format = require('./indent')
+
 let string =`<section id="section-six-photo">
 		<div class="img-container"></div>
 		<div class="svg-photo-container">
@@ -379,46 +383,91 @@ let string =`<section id="section-six-photo">
 			</clipPath>	
 		</svg>
     </section>`
-    let string1 = `<linearGradient id="photo-fill_1_" gradientUnits="userSpaceOnUse" x1="253.2721" y1="199.6016" x2="306.5327" y2="199.6016">
-	<stop  offset="0" style="stop-color:#878787"/>
-	<style type="text/css">
-					.photo-st0{fill:#061E2D;}
-					.photo-st1{fill:#40A6BF;}
-					.photo-st2{fill:url(#photo-fill_1_);}
-					.photo-st3{fill:url(#top-lens-highlight_3_);}
-					.photo-st4{fill:url(#photo-fill_2_);}
-					.photo-st5{fill:url(#top-lens-highlight_4_);}
-					.photo-st6{fill:url(#photo-fill_3_);}
-					.photo-st7{fill:url(#top-lens-highlight_5_);}
-					.photo-st8{fill:url(#photo-fill_4_);}
-					.photo-st9{fill:url(#photo-fill_5_);}
-					.photo-st10{fill:none;stroke:#061E2D;stroke-width:8.2684;stroke-miterlimit:10;}
-					.photo-st11{fill:#0E485E;}
-					.photo-st12{fill:#F5BA1C;}
-					.photo-st13{fill:url(#shoulder_highlight_2_);}
-					.photo-st14{fill:url(#shoulder_highlight_3_);}
-					.photo-st15{fill:url(#body-highlight_1_);}
-					.photo-st16{fill:#DBDBDB;}
-					.photo-st17{fill:#A5A5A5;}
-					.photo-st18{fill:#FFFF94;}
-					.photo-st19{fill:url(#photo-fill_6_);}
-					.photo-st20{fill:url(#photo-fill_7_);}
-					.image-border{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}
-                </style>
-				<stop  offset="0.003" style="stop-color:#888888;stop-opacity:0.9976"/>
-				<stop  offset="0.1676" style="stop-color:#B8B8B8;stop-opacity:0.8649"/>
-				<stop  offset="0.3126" style="stop-color:#DBDBDB;stop-opacity:0.7481"/>
-				<stop  offset="0.4312" style="stop-color:#F0F0F0;stop-opacity:0.6524"/>
-				<stop  offset="0.5087" style="stop-color:#F8F8F8;stop-opacity:0.59"/>
-				<stop  offset="0.5905" style="stop-color:#ECECEC;stop-opacity:0.5617"/>
-				<stop  offset="0.7379" style="stop-color:#CDCDCD;stop-opacity:0.5107"/>
-				<stop  offset="0.9325" style="stop-color:#9A9A9A;stop-opacity:0.4434"/>
+    let string1 = `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	viewBox="0 0 134 134" style="enable-background:new 0 0 134 134;" xml:space="preserve">
+<style type="text/css">
+   .st0{fill:url(#SVGID_1_);}
+   .st1{fill:url(#SVGID_2_);}
+   .st2{fill:url(#SVGID_3_);}
+   .st3{fill:url(#green-glow_1_);}
+   .st4{fill:#FF3600;}
+   .st5{fill:url(#SVGID_4_);}
+   .st6{fill:url(#SVGID_5_);}
+   .st7{fill:url(#bulb-top-hightlight_1_);}
+</style>
+<g id="outter-shadow">
+   
+	   <radialGradient id="SVGID_1_" cx="-475.6171" cy="1244.5013" r="51.42" fx="-507.3624" fy="1273.3612" gradientTransform="matrix(-0.5452 0.8383 0.9221 0.5997 -1341.6274 -308.4312)" gradientUnits="userSpaceOnUse">
+	   <stop  offset="0" style="stop-color:#828282"/>
+	   <stop  offset="1" style="stop-color:#000000"/>
+   </radialGradient>
+   <path class="st0" d="M87.9,28.3c-21.4-11.6-48.1-3.6-59.6,17.8s-3.6,48.1,17.8,59.6s48.1,3.6,59.6-17.8c0,0,0,0,0,0
+	   C117.2,66.5,109.3,39.9,87.9,28.3z M50.1,98.3C32.8,89,26.4,67.4,35.7,50.2s30.9-23.7,48.1-14.4c17.3,9.3,23.7,30.9,14.4,48.1
+	   C88.9,101.2,67.4,107.6,50.1,98.3L50.1,98.3z"/>
+</g>
+<g id="ring-inner-shadow">
+   
+	   <radialGradient id="SVGID_2_" cx="239.8466" cy="487.8054" r="42.95" fx="239.8508" fy="487.8011" gradientTransform="matrix(0.8115 0.5844 0.5844 -0.8115 -412.775 343.5056)" gradientUnits="userSpaceOnUse">
+	   <stop  offset="0" style="stop-color:#828282"/>
+	   <stop  offset="1" style="stop-color:#000000"/>
+   </radialGradient>
+   <path class="st1" d="M88.2,37.5c-16.3-11.7-39-8-50.7,8.2s-8,39,8.2,50.7s39,8,50.7-8.2c0,0,0,0,0,0
+	   C108.2,71.9,104.5,49.2,88.2,37.5z M48.7,92.4c-14.1-10.1-17.2-29.7-7.1-43.8s29.7-17.2,43.8-7.1s17.2,29.7,7.1,43.8c0,0,0,0,0,0
+	   C82.3,99.4,62.7,102.6,48.7,92.4z"/>
+</g>
+<g id="green-bulb">
+   
+	   <linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="66.3183" y1="43.26" x2="67.6683" y2="94.07" gradientTransform="matrix(1 0 0 -1 -4.134885e-03 135.9977)">
+	   <stop  offset="0" style="stop-color:#79AA00"/>
+	   <stop  offset="1" style="stop-color:#307F00"/>
+   </linearGradient>
+   <circle class="st2" cx="67" cy="67" r="31.3"/>
+   
+	   <radialGradient id="green-glow_1_" cx="67" cy="69" r="41.76" gradientTransform="matrix(1 0 0 -1 0 136)" gradientUnits="userSpaceOnUse">
+	   <stop  offset="0" style="stop-color:#79AA00"/>
+	   <stop  offset="0.12" style="stop-color:#72B000;stop-opacity:0.93"/>
+	   <stop  offset="0.33" style="stop-color:#5FBE00;stop-opacity:0.76"/>
+	   <stop  offset="0.6" style="stop-color:#41D600;stop-opacity:0.48"/>
+	   <stop  offset="0.93" style="stop-color:#17F700;stop-opacity:9.000000e-02"/>
+	   <stop  offset="1" style="stop-color:#0DFF00;stop-opacity:0"/>
+   </radialGradient>
+   <circle id="green-glow" class="st3" cx="67" cy="67" r="41.8"/>
+</g>
+<g id="red-bulb">
+   <circle class="st4" cx="67" cy="67" r="31.3"/>
+   
+	   <radialGradient id="SVGID_4_" cx="66.9954" cy="69.0035" r="31.3547" gradientTransform="matrix(1 0 0 -1 8.765546e-03 136.0075)" gradientUnits="userSpaceOnUse">
+	   <stop  offset="0" style="stop-color:#FF8800"/>
+	   <stop  offset="0.19" style="stop-color:#FF7A00;stop-opacity:0.83"/>
+	   <stop  offset="0.62" style="stop-color:#FF5600;stop-opacity:0.39"/>
+	   <stop  offset="1" style="stop-color:#FF3600;stop-opacity:0"/>
+   </radialGradient>
+   <circle class="st5" cx="67" cy="67" r="31.4"/>
+</g>
+<g id="bulb-bottom-highlight">
+   
+	   <linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="67" y1="39.2391" x2="67" y2="51.1" gradientTransform="matrix(1 0 0 -1 0 136)">
+	   <stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.5"/>
+	   <stop  offset="1" style="stop-color:#FDF0EC;stop-opacity:0"/>
+   </linearGradient>
+   <path class="st6" d="M89.8,84.9c-8.8,12.6-26.1,15.6-38.7,6.8c-2.7-1.9-5-4.2-6.8-6.8H89.8z"/>
+</g>
+<linearGradient id="bulb-top-hightlight_1_" gradientUnits="userSpaceOnUse" x1="66.91" y1="74.22" x2="66.91" y2="98.98" gradientTransform="matrix(1 0 0 -1 0 136)">
+   <stop  offset="0" style="stop-color:#FDF0EC;stop-opacity:0"/>
+   <stop  offset="0.11" style="stop-color:#FDF0ED;stop-opacity:2.000000e-02"/>
+   <stop  offset="0.25" style="stop-color:#FDF2EE;stop-opacity:9.000000e-02"/>
+   <stop  offset="0.42" style="stop-color:#FDF4F1;stop-opacity:0.2"/>
+   <stop  offset="0.59" style="stop-color:#FEF7F4;stop-opacity:0.35"/>
+   <stop  offset="0.79" style="stop-color:#FEFAF9;stop-opacity:0.55"/>
+   <stop  offset="0.98" style="stop-color:#FFFFFF;stop-opacity:0.78"/>
+   <stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/>
 </linearGradient>
-<path class="photo-st2" d="M305.362,187.288c-0.239,5.591-2.608,11.164-6.477,15.437c-3.881,4.271-9.16,7.242-14.793,8.486
-    c-5.623,1.298-11.646,0.862-16.973-1.267c-5.344-2.114-9.887-5.928-13.001-10.558l0.32-0.25c3.717,4.073,8.271,7.276,13.364,8.943
-    c2.533,0.85,5.179,1.311,7.83,1.434c2.653,0.104,5.315-0.159,7.896-0.753c5.155-1.229,9.982-3.817,13.785-7.545
-    c3.833-3.711,6.501-8.58,7.866-13.956L305.362,187.288z"/>`
+<ellipse id="bulb-top-hightlight" class="st7" cx="66.9" cy="49.4" rx="21" ry="12.4"/>
+</svg>
+
+  `
 	// photo-st8{fill:url(#photo-fill_4_);}
+
 
 /**
  * Class to create new stringed svg element
@@ -433,17 +482,21 @@ class ConvertSvgForReact  {
 
 		this.string = string
 		this.stylePattern = /<style([\s\S]*)<\/style>/gi
-		this.stopColorPattern = /style="stop-color:/gi
-		this.stopOpacity = /stop-opacity:/gi
+		// this.stopColorPattern = /style="stop-color:|stop-color="/gi
+		// this.stopOpacity = /stop-opacity:/gi
+		this.hasColan = /(?<=style=".+):/gi
+		this.hasSemiColan = /;(?!\})/gi
+		this.hasStyle = /style(=|:)"/gi
+		this.stopColorPattern = /stop-color/gi
+		this.stopOpacity = /stop-opacity/gi
 		this.classPattern = /class=/g
 		this.xmlPattern = /xmlns:xlink|xml:space|xlink:href/gi
-		this.cssObjects = /\..*;}/gi
+		this.cssObjects = /(\..*;})/gi
 		this.svgCSS = ''
 	}
 	
 	/**
-	 * @property {Function} stringify_CSS Optional if user wants to leave style element in document
-	 * @returns {String}
+	 * @property {Function} stringify_CSS - Optional if user wants to leave style element in svg xml document
 	 */
 	stringify_CSS() {
 		let CSSobjects = this.string.match(this.cssObjects)
@@ -452,59 +505,83 @@ class ConvertSvgForReact  {
 		let toString = ''
 		for (let i = 0; i < length; i++) {
 			const element = CSSobjects[i];
-		
+			
+			// Replaces last line
 			if (i === length - 1 ) {
-				toString += element.replace(/(^)(.*)($)/gi, '$1"$2"\n$3'); //Only coverts last line with no +
+				toString += element.replace(/(\..*;})/gi, '"$1"\n}</style>');
+			// Replaces first line
+			} else if (i === 0) {
+				toString += element.replace(/(\..*;})/gi, '<style type="text/css">{\n"$1"+\n');
+			// Replaces every line but first and last
 			} else {
-				toString += element.replace(/(^)(.*)($)/gi, '$1"$2"+\n$3');
+				toString += element.replace(/(\..*;})/gi, ' "$1"+\n');
 			}
 		}
-		return toString
+		
+		this.string = this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 	}
 	/**
 	 * 
-	 * @property {Function} 
+	 * @property {Function} findAndReplace - Looks for all xml attributes that need to be replaced 
 	 * @returns {String}
 	 */
-	findAndReplace () {
+	findAndReplace() {
 		let string = this.string
 		//True to return string of <style type="text/css"> .someElement{someTyle:#A5A5A5;}  </style>
 		//Or leave it to stringify it and use it within React
 
 		const removeStyleElement = false
 		const styleElement = this.stylePattern.test(string);
+		const hasColan = this.hasColan.test(string)
+		const hasStyle = this.hasStyle.test(string)
+		const hasSemiColan= this.hasSemiColan.test(string)
 		const isGradientStyle = this.stopColorPattern.test(string)
 		const isClass = this.classPattern.test(string)
+		const hasTitle = this
 		const isXML = this.xmlPattern.test(string)
 		const isStopOpacity = this.stopOpacity.test(string)
-		// const isCSSobjects = 
 
 		if ( !typeof string ) return `<div>Must be a valid string</div>`
 
-		// If CSS style element exist check weather or not user wants to remove it for external style sheet or leave it within react component
+		//    <style type="text/css">{
+        //            '.photo-st0{fill:#C13838;}'+
+        //        }
+		// 	  </style>
+		
 		if (styleElement) {
 			if ( removeStyleElement ) {  
 				this.string = this.string.replace(this.stylePattern, '')
 				this.svgCSS = string.match( this.stylePattern )[0].replace(/\t/g,' ') 
 			} else {
 				let newCSSobjects = this.stringify_CSS()
-				this.string = this.string.replace(this.stylePattern, newCSSobjects)
 			}
 		} 
+		if ( hasColan ) {
+			this.string = this.string.replace(this.hasColan, '="')
+		}
 
-	
+		if ( hasStyle ) {
+			this.string = this.string.replace(this.hasStyle, '')
+		}
+		if ( hasSemiColan ) {
+			
+			this.string = this.string.replace(/(<.*)(#.*)(;)(.*)?/gi, '$1$2" $4')
+
+		}
 		if ( isGradientStyle ) {
 
-			this.string = this.string.replace(this.stopColorPattern, 'stopColor="')
-
+			this.string = this.string.replace(this.stopColorPattern, 'stopColor')
 		}
 		if ( isStopOpacity ) {
 
-			this.string = this.string.replace(this.stopOpacity, 'stopOpacity:')
+			this.string = this.string.replace(this.stopOpacity, 'stopOpacity')
 
 		}
 		if ( isClass ) {
 			this.string  = this.string.replace(this.classPattern, 'className=')
+		}
+		if ( hasTitle ) {
+			this.string  = this.string.replace(/<title>.*<\/title>/, '')
 		}
 		if ( isXML ) {
 			switch ( true ) { 
@@ -518,18 +595,12 @@ class ConvertSvgForReact  {
 		}
 		return this.string
 	}
-
-	indent () {
-		let rtsPattern = /<\w.+[\s\S]+?(<\/\w+>)/gi
-		
-		let string = this.string
-		// console.log(string.match(rtsPattern))
-		// let parentPattern = /</gi
-		// console.log(string)
-	}
 }
     const convertSvgForReact = new ConvertSvgForReact(string1);
-   console.log( convertSvgForReact.findAndReplace() )
-   convertSvgForReact.indent()
-
+   let newString = convertSvgForReact.findAndReplace()
+//    console.log('newString:', newString)
+ 
+//    convertSvgForReact.indent()
+const indent = new format(newString).indent()
+   console.log('indent:', indent)
    

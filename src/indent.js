@@ -1,4 +1,8 @@
-var rts = 
+let rts = `
+`
+
+
+var rtss = 
 `
 <g somecode andsome -more>
     <stop  offset="1" style="stop-color:#FEB800;stop-opacity:0.63end"/>
@@ -119,7 +123,10 @@ var rts =
 
 
 // Put elements on their own line if on the same line together
-
+/**
+ * Class to create new indented stringed svg element 
+ * 
+ */
 class Format {
     constructor(string) {
         this.string = string
@@ -129,7 +136,8 @@ class Format {
         if (typeof this.string !== 'string')
             return {err: 'Not a valid string'}
 
-	    let newLinePattern = /(<\/?\w.*>)(<\/?\w.*>)/gi
+        let newLinePattern = /(<\/?\w.*>)(\w<\/?\w.*>)/gi
+
         let isFormated = newLinePattern.test(this.newString)
 
         if ( isFormated ) {
@@ -137,7 +145,9 @@ class Format {
             this.newString = this.newString.replace(newLinePattern, '$1\n$2')
             this.newLine()
             return this.newString
-        } 
+        } else {
+            return this.string
+        }
     }
 
     elementOnOwnLines() {
@@ -155,6 +165,7 @@ class Format {
 
     leftFormat() {
         let elementOnOwnLines = this.elementOnOwnLines();
+
         if (!elementOnOwnLines)
             return {err: 'Can\'t format Elements on Own Lines'}
 
@@ -167,7 +178,7 @@ class Format {
     indent(){
         const leftFormat = this.leftFormat()
         let selectAllLines = /.+/gi
-        let allArray = leftFormat.match(selectAllLines);
+        let allArray = leftFormat.match(selectAllLines); 
         let length = allArray.length
         let newString = ''
         let spaceCount = 0
@@ -175,34 +186,33 @@ class Format {
        
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
-            let beginnings = /^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
-            let endings = /(?<!.+)<\/.*>/gi.test(element) // </...> 
+            let beginnings = /<svg.+>|^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
+            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+            let endings = /(?<!.+)<\/.*>|}<\/style>/gi.test(element) // </...> or }</style>
 
             // Indents open elements <g> or <g className="someclass" notclosing..
             if (beginnings) {
-                if ( /<\w+[^\/]+>/gi.test(allArray[i-1]) ) {   // Tests previous element is the same, if so add space
+                // if ( (/<[^\/].+[^\/]>|<g>/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
+                    if ( (/^<[^\/]+>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
                     space += '\xa0'
-                    newString += '\n'+space+element
+                    newString += '\n'+space+element+'begining space'
                 } else
-                    newString += '\n'+space+element+'begin'
+                    newString += '\n'+space+element+'beginnings'
             }
-            // Indents single open and clsoing elements <.../> or <..>...</..>
+            // Indents single open and closing elements <.../> or <..>...</..>
             if (onelines) {
                 if ( /^<[^\/]+>$/gi.test(allArray[i-1]) ) {  // have to remove spaces to <g somecode andsome -more>	   SPACES RIGHT HERE   begin
-                    
                     space += '\xa0'
-                    newString += '\n'+space+element+2+'top'
-              
+                    newString += '\n'+space+element+'indenting'
                 } else 
-                    newString += '\n'+space+element+2+'bottom'
+                    newString += '\n'+space+element+'indenting2'
             }
-            // Indents closing elements </g>
+            // Doesn't indent closing elements </g>
             if (endings) {
                 spaceCount++
                 let spaceCountPattern = new RegExp(`\\s{${spaceCount}}`,'i')
                 space = space.replace(spaceCountPattern, '')
-                newString += '\n'+space+element+'ending'
+                newString += '\n'+space+element
     
                 //Resets space count 
                 spaceCount = 0
@@ -210,15 +220,12 @@ class Format {
         }
         return newString
     }
-
 }
-let format = new Format(rts).indent()
-console.log(format)
+// let format = new Format(rts).indent()
+// console.log(format)
 
-
-
-
-
+// export default Format
+module.exports = Format
 
 
 
