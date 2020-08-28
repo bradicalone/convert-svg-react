@@ -1,7 +1,7 @@
 // import Format from './indent'
 const format = require('./indent')
 
-let string =`<section id="section-six-photo">
+let string = `<section id="section-six-photo">
 		<div class="img-container"></div>
 		<div class="svg-photo-container">
 			<div class="content">
@@ -383,33 +383,33 @@ let string =`<section id="section-six-photo">
 			</clipPath>	
 		</svg>
     </section>`
-	let string1 = `
-	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 411 204" style="enable-background:new 0 0 411 204;" xml:space="preserve">
-<style type="text/css">
-	.st0{font-family:'MyriadPro-BoldSemiExt';}
-	.st1{font-size:28px;}
-</style>
-<title>tup</title>
-<polygon points="0.7,0 0.7,32.9 52.4,32.9 52.4,167 89.9,167 89.9,33.4 410.3,33.4 410.3,0 "/>
-<path d="M108.7,43.8v90.9c0,17.8,14.4,32.3,32.2,32.3c0,0,0,0,0,0h85.8c17.8,0,32.2-14.4,32.2-32.2V43.8h-35.5v75.8
-	c0,10-8.1,18.2-18.2,18.2c0,0,0,0,0,0h-45.1c-10,0-18.2-8.1-18.2-18.2v0V43.8H108.7z"/>
-<path d="M272.2,43.8V167h31.6v-30.3h78.2c15.6,0,28.2-12.6,28.2-28.2c0,0,0,0,0,0V72c0-15.6-12.6-28.2-28.2-28.2c0,0,0,0,0,0
-	L272.2,43.8z M377.9,93c0,6.9-5.6,12.4-12.4,12.4h-60.6V74.6h60.6c6.8,0,12.4,5.5,12.4,12.4V93z"/>
-<text transform="matrix(1 0 0 1 -1.2609 203)" class="st0 st1">TRACK UNDERSTAND PREDICT</text>
-</svg>
+let string1 = `
+	<div class="photo-robot-wrapper">
+  <svg version="1.1" id="photo-robot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 661.869 785.377" xml:space="preserve">
+  <style type="text/css">
+    .photo-st0{fill:#061E2D;}
+    .photo-st1{fill:#40A6BF;}
+  </style>
+  <use xlink:href="/svg/svg-sprite#my-icon" />
+  <circle class="photo-st0" cx="276.101" cy="181.159" r="40.222"/>
+  <linearGradient id="photo-fill_1_" gradientUnits="userSpaceOnUse" x1="253.2721" y1="199.6016" x2="306.5327" y2="199.6016">
+		<stop  offset="0" style="stop-color:#C4C4C4"/>
+		<stop  offset="0" style="stop-color:#C5C5C5"/>
+  </linearGradient>
+  </svg>
+</div>
   `
 
 /**
  * Class to create new stringed svg element
  * 
  */
-class ConvertSvgForReact  {
+class ConvertSvgForReact {
 	/**
 	 * 
 	 * @param {String} string element in a string format
 	 */
-	constructor(string){
+	constructor(string) {
 		this.string = string
 		this.stylePattern = /<style([\s\S]*)<\/style>/gi
 		this.hasColan = /(?<=style=".+):/gi
@@ -423,7 +423,7 @@ class ConvertSvgForReact  {
 		this.svgCSS = ''
 		this.hasTitle = /<title>.+<\/title>/gi
 	}
-	
+
 	/**
 	 * @property {Function} stringify_CSS - Optional if user wants to leave style element in svg xml document
 	 */
@@ -434,19 +434,19 @@ class ConvertSvgForReact  {
 		let toString = ''
 		for (let i = 0; i < length; i++) {
 			const element = CSSobjects[i];
-			
+
 			// Replaces last line
-			if ( i === length - 1 ) {
+			if (i === length - 1) {
 				toString += element.replace(/(\..*;})/gi, '"$1"\n}</style>');
-			// Replaces first line
+				// Replaces first line
 			} else if (i === 0) {
 				toString += element.replace(/(\..*;})/gi, '<style type="text/css">{\n"$1"+\n');
-			// Replaces every line but first and last
+				// Replaces every line but first and last
 			} else {
 				toString += element.replace(/(\..*;})/gi, ' "$1"+\n');
 			}
 		}
-		
+
 		this.string = this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 	}
 	/**
@@ -456,12 +456,12 @@ class ConvertSvgForReact  {
 	 */
 	findAndReplace() {
 		let string = this.string
-	
+
 		const removeStyleElement = false
 		const styleElement = this.stylePattern.test(string);
 		const hasColan = this.hasColan.test(string)
 		const hasStyle = this.hasStyle.test(string)
-		const hasSemiColan= this.hasSemiColan.test(string)
+		const hasSemiColan = this.hasSemiColan.test(string)
 		const isGradientStyle = this.stopColorPattern.test(string)
 		const isClass = this.classPattern.test(string)
 		const hasTitle = this.hasTitle.test(string)
@@ -470,68 +470,67 @@ class ConvertSvgForReact  {
 
 
 
-		if ( !typeof string ) return `<div>Must be a valid string</div>`
+		if (!typeof string) return `<div>Must be a valid string</div>`
 
-		if ( isXML ) {
-			switch ( true ) { 
-				case /xmlns:xlink/gi.test( string ) :
+		if (isXML) {
+			switch (true) {
+				case /xmlns:xlink/gi.test(string):
 					this.string = this.string.replace(/xmlns:xlink/gi, 'xmlnsXlink')
-				case /xml:space/gi.test( string ) :
+				case /xml:space/gi.test(string):
 					this.string = this.string.replace(/xml:space/gi, 'xmlSpace')
-				case /xlink:href/gi.test( string ) :
+				case /xlink:href/gi.test(string):
 					this.string = this.string.replace(/xlink:href/gi, 'href')
 			}
 		}
 		//  True to return string of <style type="text/css"> .someElement{someTyle:#A5A5A5;}  </style>
 		//    <style type="text/css">{
-        //            '.photo-st0{fill:#C13838;}'+
-        //        }
+		//            '.photo-st0{fill:#C13838;}'+
+		//        }
 		// 	  </style>
 		//  Or leave it to stringify it and use it within React
 		if (styleElement) {
-			if ( removeStyleElement ) {  
+			if (removeStyleElement) {
 				this.string = this.string.replace(this.stylePattern, '')
-				this.svgCSS = string.match( this.stylePattern )[0].replace(/\t/g,' ') 
+				this.svgCSS = string.match(this.stylePattern)[0].replace(/\t/g, ' ')
 			} else {
 				let newCSSobjects = this.stringify_CSS()
 			}
-		} 
-		if ( hasColan ) {
+		}
+		if (hasColan) {
 			this.string = this.string.replace(this.hasColan, '="')
 		}
 
-		if ( hasStyle ) {
+		if (hasStyle) {
 			this.string = this.string.replace(this.hasStyle, '')
 		}
-		if ( hasSemiColan ) {
-			
+		if (hasSemiColan) {
+
 			this.string = this.string.replace(/(<.*)(#.*)(;)(.*)?/gi, '$1$2" $4')
 
 		}
-		if ( isGradientStyle ) {
+		if (isGradientStyle) {
 
 			this.string = this.string.replace(this.stopColorPattern, 'stopColor')
 		}
-		if ( isStopOpacity ) {
+		if (isStopOpacity) {
 
 			this.string = this.string.replace(this.stopOpacity, 'stopOpacity')
 
 		}
-		if ( isClass ) {
-			this.string  = this.string.replace(this.classPattern, 'className=')
+		if (isClass) {
+			this.string = this.string.replace(this.classPattern, 'className=')
 		}
-		if ( hasTitle ) {
-			this.string  = this.string.replace(/<title>.*<\/title>/, '')
+		if (hasTitle) {
+			this.string = this.string.replace(/<title>.*<\/title>/, '')
 		}
-		
+
 		return this.string
 	}
 }
-    const convertSvgForReact = new ConvertSvgForReact(string);
-   let newString = convertSvgForReact.findAndReplace()
+const convertSvgForReact = new ConvertSvgForReact(string1);
+let newString = convertSvgForReact.findAndReplace()
 //    console.log('newString:', newString)
- 
+
 //    convertSvgForReact.indent()
 const indent = new format(newString).indent()
-   console.log('indent:', indent)
-   
+console.log('indent:', indent)
