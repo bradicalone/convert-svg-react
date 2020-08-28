@@ -23,7 +23,7 @@ Using an inline xml SVG:
 </div>
 ```
 
-Coverted:
+Converted:
 
 ```html
 <div className="photo-robot-wrapper">
