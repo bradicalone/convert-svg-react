@@ -1,5 +1,7 @@
-// import Format from './indent'
-const format = require('./indent')
+
+const Format = require('./format')
+const http = require('http');
+const fs = require('fs').promises
 
 let string = `<section id="section-six-photo">
 		<div class="img-container"></div>
@@ -384,33 +386,35 @@ let string = `<section id="section-six-photo">
 		</svg>
     </section>`
 let string1 = `
-	<div class="photo-robot-wrapper">
-  <svg version="1.1" id="photo-robot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 661.869 785.377" xml:space="preserve">
-  <style type="text/css">
-    .photo-st0{fill:#061E2D;}
-    .photo-st1{fill:#40A6BF;}
-  </style>
-  <use xlink:href="/svg/svg-sprite#my-icon" />
-  <circle class="photo-st0" cx="276.101" cy="181.159" r="40.222"/>
-  <linearGradient id="photo-fill_1_" gradientUnits="userSpaceOnUse" x1="253.2721" y1="199.6016" x2="306.5327" y2="199.6016">
-		<stop  offset="0" style="stop-color:#C4C4C4"/>
-		<stop  offset="0" style="stop-color:#C5C5C5"/>
-  </linearGradient>
-  </svg>
-</div>
+
   `
+/**
+ * Displays new converted svg to a usable svg react components.
+ * @param {string} svg 
+ */
+const openFile = (svg) => {
+	const requestListener = function (req, res) {
+		
+		res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
+		res.end(svg);
+	  }
+	  
+	  const server = http.createServer(requestListener);
+	  server.listen(8080);
+}
 
 /**
  * Class to create new stringed svg element
  * 
  */
-class ConvertSvgForReact {
+class Convert {
 	/**
 	 * 
-	 * @param {String} string element in a string format
+	 * @param {String} path path to svg file
 	 */
-	constructor(string) {
-		this.string = string
+	constructor(path) {
+		this.path = path
+		this.string = ''
 		this.stylePattern = /<style([\s\S]*)<\/style>/gi
 		this.hasColan = /(?<=style=".+):/gi
 		this.hasSemiColan = /;(?!\})/gi
@@ -422,8 +426,17 @@ class ConvertSvgForReact {
 		this.cssObjects = /(\..*;})/gi
 		this.svgCSS = ''
 		this.hasTitle = /<title>.+<\/title>/gi
+		this.enabledBackground = /enable-background/g
 	}
-
+	/**
+	 * @property {Function} readFile Reads file from path given by client
+	 * @returns {Promise<String>}
+	 */
+	async readFile() {
+		let svg = await fs.readFile(this.path,'utf8')
+		this.string = svg
+		return svg
+	}
 	/**
 	 * @property {Function} stringify_CSS - Optional if user wants to leave style element in svg xml document
 	 */
@@ -449,12 +462,14 @@ class ConvertSvgForReact {
 
 		this.string = this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 	}
+
 	/**
 	 * 
 	 * @property {Function} findAndReplace - Looks for all xml attributes that need to be replaced 
-	 * @returns {String}
+	 * @returns {Promise<String>}
 	 */
-	findAndReplace() {
+	async findAndReplace() {
+		await this.readFile()
 		let string = this.string
 
 		const removeStyleElement = false
@@ -467,8 +482,7 @@ class ConvertSvgForReact {
 		const hasTitle = this.hasTitle.test(string)
 		const isXML = this.xmlPattern.test(string)
 		const isStopOpacity = this.stopOpacity.test(string)
-
-
+		const hasEnabledBackground = this.enabledBackground.test(string)
 
 		if (!typeof string) return `<div>Must be a valid string</div>`
 
@@ -487,7 +501,7 @@ class ConvertSvgForReact {
 		//            '.photo-st0{fill:#C13838;}'+
 		//        }
 		// 	  </style>
-		//  Or leave it to stringify it and use it within React
+		//  Or leave it, stringify it and use it within React
 		if (styleElement) {
 			if (removeStyleElement) {
 				this.string = this.string.replace(this.stylePattern, '')
@@ -496,26 +510,23 @@ class ConvertSvgForReact {
 				let newCSSobjects = this.stringify_CSS()
 			}
 		}
+		if (hasEnabledBackground) {
+			this.string = this.string.replace(/enable-background.+"\s/g, '')
+		}
 		if (hasColan) {
 			this.string = this.string.replace(this.hasColan, '="')
 		}
-
 		if (hasStyle) {
 			this.string = this.string.replace(this.hasStyle, '')
 		}
 		if (hasSemiColan) {
-
 			this.string = this.string.replace(/(<.*)(#.*)(;)(.*)?/gi, '$1$2" $4')
-
 		}
 		if (isGradientStyle) {
-
 			this.string = this.string.replace(this.stopColorPattern, 'stopColor')
 		}
 		if (isStopOpacity) {
-
 			this.string = this.string.replace(this.stopOpacity, 'stopOpacity')
-
 		}
 		if (isClass) {
 			this.string = this.string.replace(this.classPattern, 'className=')
@@ -524,13 +535,15 @@ class ConvertSvgForReact {
 			this.string = this.string.replace(/<title>.*<\/title>/, '')
 		}
 
-		return this.string
+		/**
+		 * Format
+		 * See {@link Format}
+		 */
+		let formated = Format.indent(this.string)
+		openFile(formated)
+		return formated
 	}
 }
-const convertSvgForReact = new ConvertSvgForReact(string1);
-let newString = convertSvgForReact.findAndReplace()
-//    console.log('newString:', newString)
 
-//    convertSvgForReact.indent()
-const indent = new format(newString).indent()
-console.log('indent:', indent)
+
+module.exports = Convert

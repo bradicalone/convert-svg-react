@@ -1,23 +1,22 @@
 // Put elements on their own line if on the same line together
 /**
- * Class to create new indented stringed svg element 
+ * Class to create new indented stringed svg elements
  * 
  */
 class Format {
     constructor(string) {
-        this.string = string
+        this.string = ''
         this.newString = this.string
     }
     newLine() {
         if (typeof this.string !== 'string')
             return {err: 'Not a valid string'}
 
-        let newLinePattern = /(<\/?\w.*>)(\w<\/?\w.*>)/gi
-
-        let isFormated = newLinePattern.test(this.newString)
+        const newLinePattern = /(<\/?\w.*>)(\w<\/?\w.*>)/gi
+        const isFormated = newLinePattern.test(this.newString)
 
         if ( isFormated ) {
-            //Updates this.newString untill new line formating is done
+            //Updates this.newString until new line formating is done
             this.newString = this.newString.replace(newLinePattern, '$1\n$2')
             this.newLine()
             return this.newString
@@ -52,8 +51,10 @@ class Format {
         return formatLeft
     }
 
-    indent(){
+    indent(string){
+        this.string = string
         const leftFormat = this.leftFormat()
+        
         let selectAllLines = /.+/gi
         let allArray = leftFormat.match(selectAllLines); 
         let length = allArray.length
@@ -78,7 +79,6 @@ class Format {
             // Indents single open and closing elements <.../> or <..>...</..>
             if (onelines) {
                 if ( /^<[^\/]+>$|^<style.+{$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...>
-                    // console.log(element)
                     space += '\xa0'
                     newString += '\n'+space+element   // Indents if previous line is different
                 } else 
@@ -98,9 +98,8 @@ class Format {
         return newString
     }
 }
-// let format = new Format(rts).indent()
 
-module.exports = Format
+module.exports = new Format()
 
 
 
