@@ -6,7 +6,7 @@ Using an inline xml SVG:
 
 * Example below of an svg inline element to be converted into a useable react component:
 
-```html
+```xml
 <div class="photo-robot-wrapper">
   <svg version="1.1" id="photo-robot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 661.869 785.377" xml:space="preserve">
   <style type="text/css">
@@ -25,7 +25,7 @@ Using an inline xml SVG:
 
 Converted:
 
-```html
+```xml
 <div className="photo-robot-wrapper">
    <svg version="1.1" id="photo-robot" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 661.869 785.377" xmlSpace="preserve">
      <style type="text/css">{
