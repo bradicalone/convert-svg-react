@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ConvertSvgForReact from '../converter';
+// import ConvertSvgForReact from '../converter';
 import ReactDOMServer , { renderToStaticMarkup, } from 'react-dom/server';
 import Navigation from './Navigation'
 const navigation = <Navigation />

@@ -393,6 +393,7 @@ let string1 = `
  * @param {string} svg 
  */
 const openFile = (svg) => {
+	console.log('svg:', svg)
 	const requestListener = function (req, res) {
 		
 		res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
@@ -400,7 +401,7 @@ const openFile = (svg) => {
 	  }
 	  
 	  const server = http.createServer(requestListener);
-	  server.listen(8080);
+	  server.listen(8000);
 }
 
 /**
@@ -426,7 +427,12 @@ class Convert {
 		this.cssObjects = /(\..*;})/gi
 		this.svgCSS = ''
 		this.hasTitle = /<title>.+<\/title>/gi
-		this.enabledBackground = /enable-background/g
+		this.enabledBackground = /enable-background/g 
+		if (typeof path !== 'string') {
+			return '<div>File path is not of string.</div>'
+			console.log('Not a string')
+		}
+		this.findAndReplace()
 	}
 	/**
 	 * @property {Function} readFile Reads file from path given by client
@@ -540,6 +546,7 @@ class Convert {
 		 * See {@link Format}
 		 */
 		let formated = Format.indent(this.string)
+		console.log('formated:', formated)
 		openFile(formated)
 		return formated
 	}

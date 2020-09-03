@@ -4,10 +4,9 @@
   "description": "Converts SVG XML code to be used as a ReactJS component.",
   "main": "converter/index.js",
   "scripts": {
-    "compile": "npx babel src --out-dir lib",
     "doc": "jsdoc -c jsdoc.json",
     "build": "webpack --watch",
-    "client": "webpack-dev-server --mode development --open --hot",
+    "start:dev": "webpack-dev-server --mode development --open --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Brad Vanderbush <b.vanderbush@icloud.com>",

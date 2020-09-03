@@ -44,19 +44,16 @@ Converted:
 
 ## Installing <svg-to-react-converter>
 
-To install <svg-converter>, follow these steps:
+To install , follow these steps:
+- Clone repository
+- `cd svg-react-converter`
 
 ```
 npm install
 ```
 
-## Using in Production <svg-converter>
-
-To use <svg-converter>, follow these steps:
-
-```
-npm start
-```
+`npm run build`
+`npm run start:dev`
 
 
 ## Using in Development<Streambed Upload>
