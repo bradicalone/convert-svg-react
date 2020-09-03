@@ -52,17 +52,15 @@ To install , follow these steps:
 npm install
 ```
 
-`npm run build`
-`npm run start:dev`
-
-
-## Using in Development<Streambed Upload>
+## Using in Development
 
 To use <svg-converter>, follow these steps:
 
 ```
 npm run build
 ```
+
+- Opens in the browser, usually at `http://localhost:8080/` :
 ```
-npm run test
+npm run start:dev
 ```
