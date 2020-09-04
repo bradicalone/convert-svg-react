@@ -69,7 +69,7 @@ To use <svg-converter>, follow these steps:
 npm run build
 ```
 
-- Opens in the browser, usually at `http://localhost:8080/` :
+- Opens in the browser, usually at `http://localhost:8000/` :
 ```
 npm run start:dev
 ```
