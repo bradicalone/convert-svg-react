@@ -1,6 +1,15 @@
 # SVG Converter
 
-## Prerequisites
+## Usage
+
+
+
+```js
+// Not uploaded to NPM still testing.. 
+const convert = require('convert-svg');
+
+convert('./path/tosvg/file.svg');
+```
 
 Using an inline xml SVG:
 

@@ -3,7 +3,8 @@ const Format = require('./format')
 const http = require('http');
 const fs = require('fs').promises
 
-let string = `<section id="section-six-photo">
+
+let test_string = `<section id="section-six-photo">
 		<div class="img-container"></div>
 		<div class="svg-photo-container">
 			<div class="content">
@@ -385,23 +386,35 @@ let string = `<section id="section-six-photo">
 			</clipPath>	
 		</svg>
     </section>`
-let string1 = `
 
-  `
 /**
  * Displays new converted svg to a usable svg react components.
- * @param {string} svg 
+ * @param {string|object} svg 
  */
 const openFile = (svg) => {
+	const text = {"Content-Type": "text/plain; charset=utf-8"}
+	const html = {"Content-Type": "text/html"}
+	let error = svg.error
+	let content_type;
+	let content;
+
+	if(error) {
+		content_type = html
+		content = svg.error
+	} else {
+		content_type = text
+		content = svg
+	}
 	console.log('svg:', svg)
 	const requestListener = function (req, res) {
-		
-		res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
-		res.end(svg);
-	  }
+
+		res.writeHead(200, content_type);
+		res.end(content);
+	}
 	  
-	  const server = http.createServer(requestListener);
-	  server.listen(8000);
+	const server = http.createServer(requestListener);
+	server.listen(8000);
+	console.log('Open browswer http://localhost:8000/')
 }
 
 /**
@@ -411,7 +424,8 @@ const openFile = (svg) => {
 class Convert {
 	/**
 	 * 
-	 * @param {String} path path to svg file
+	 * @param {String} path - path to svg file ex: './pathto/my.svg'
+	 * 
 	 */
 	constructor(path) {
 		this.path = path
@@ -428,11 +442,11 @@ class Convert {
 		this.svgCSS = ''
 		this.hasTitle = /<title>.+<\/title>/gi
 		this.enabledBackground = /enable-background/g 
+
 		if (typeof path !== 'string') {
-			return '<div>File path is not of string.</div>'
-			console.log('Not a string')
-		}
-		this.findAndReplace()
+			openFile({error: `<h1>File path is not of string path.</h1>`})
+		} else 
+			this.findAndReplace()
 	}
 	/**
 	 * @property {Function} readFile Reads file from path given by client
@@ -546,11 +560,10 @@ class Convert {
 		 * See {@link Format}
 		 */
 		let formated = Format.indent(this.string)
-		console.log('formated:', formated)
+	
 		openFile(formated)
 		return formated
 	}
 }
-
 
 module.exports = Convert

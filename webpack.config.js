@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (env) => {
     const isProduction = env === 'production';
     return  {
+        target: "web",
         entry: './src/index.js',
         output: {
             path: path.join(__dirname, '/dist'),
@@ -12,17 +13,6 @@ module.exports = (env) => {
         },
         module: { 
             rules: [
-                {
-                    test: /\.(png|jp(e*)g|svg|gif)$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: 'images/[hash]-[name].[ext]',
-                            },
-                        },
-                    ],
-                },
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,

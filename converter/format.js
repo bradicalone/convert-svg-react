@@ -3,14 +3,15 @@
  * Class to create new indented stringed svg elements
  * 
  */
+
 class Format {
-    constructor(string) {
+    constructor() {
         this.string = ''
         this.newString = this.string
     }
     newLine() {
         if (typeof this.string !== 'string')
-            return {err: 'Not a valid string'}
+            return {error: '<h1>Not a valid string</h1>'}
 
         const newLinePattern = /(<\/?\w.*>)(\w<\/?\w.*>)/gi
         const isFormated = newLinePattern.test(this.newString)
@@ -28,7 +29,7 @@ class Format {
     elementOnOwnLines() {
         let newLine = this.newLine()
         if (!newLine) 
-            return {err: 'Can\'t format new lines'}
+            return {error: '<h1>Can\'t format new lines</h1>'}
 
         let openClosingPattern = /<\w.+[\s\S]+(<.+>)/gi
         let openClosingElements = newLine.match(openClosingPattern)
@@ -43,7 +44,7 @@ class Format {
 
         if (!elementOnOwnLines) {
             console.log('Can\'t format Elements on Own Lines')
-            return {err: 'Can\'t format Elements on Own Lines'}
+            return {error: '<h1>Can\'t format Elements on Own Lines</h1>'}
         }
         // Remove spaces from both sides
         let removeTabsPattern = /^\s*|\s*$/gm
@@ -68,7 +69,7 @@ class Format {
             let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
             let endings = /(?<!.+)<\/.*>|^}<\/style>$/gi.test(element) // </...> or }</style>
 
-            // Indents open elements <g> or <g className="someclass" notclosing..
+            // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
                 if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
                     space += '\xa0'
@@ -97,9 +98,9 @@ class Format {
         }
         return newString
     }
-}
+};
+
 
 module.exports = new Format()
-
 
 
