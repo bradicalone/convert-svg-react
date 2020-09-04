@@ -1,17 +1,32 @@
 // @ts-nocheck
-// const http = require('http');
-// const fs = require('fs').promises
+const http = require('http');
 
-// const Convert = require('.')
+// For use with NodeJS only
+const openFile = (svg) => {
+    console.log('svg:', svg)
+    const text = { "Content-Type": "text/plain; charset=utf-8" }
+    const html = { "Content-Type": "text/html" }
+    let error = svg.error
+    let content_type;
+    let content;
 
+    if (error) {
+        content_type = html
+        content = svg.error
+    } else {
+        content_type = text
+        content = svg
+    }
 
-// const requestListener = async function (req, res) {
-//   const svgString = await new Convert('./tup.svg').findAndReplace()
+    const requestListener = function (req, res) {
+        res.writeHead(200, content_type);
+        res.end(content);
+    }
 
-//   res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
-//   res.end(string);
-// }
+    const server = http.createServer(requestListener);
+    server.listen(8000);
+    console.log('Open browswer http://localhost:8000/')
+}
 
-// const server = http.createServer(requestListener);
-// server.listen(8080);
+module.exports = openFile
 

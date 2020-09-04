@@ -26,12 +26,6 @@ module.exports = (env) => {
                 },
             ],
         },
-        node: {
-            console: true,
-            fs: 'empty',
-            net: 'empty',
-            tls: 'empty'
-        },
         mode: 'development',
         devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
         devServer: {

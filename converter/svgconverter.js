@@ -1,7 +1,7 @@
 
 const Format = require('./format')
 const http = require('http');
-const fs = require('fs').promises
+const serveFile = require('./server')
 
 
 let test_string = `<section id="section-six-photo">
@@ -405,7 +405,7 @@ const openFile = (svg) => {
 		content_type = text
 		content = svg
 	}
-	console.log('svg:', svg)
+
 	const requestListener = function (req, res) {
 
 		res.writeHead(200, content_type);
@@ -424,12 +424,11 @@ const openFile = (svg) => {
 class Convert {
 	/**
 	 * 
-	 * @param {String} path - path to svg file ex: './pathto/my.svg'
+	 * @param {String} string - path to svg file ex: './pathto/my.svg'
 	 * 
 	 */
-	constructor(path) {
-		this.path = path
-		this.string = ''
+	constructor(string) {
+		this.string = string
 		this.stylePattern = /<style([\s\S]*)<\/style>/gi
 		this.hasColan = /(?<=style=".+):/gi
 		this.hasSemiColan = /;(?!\})/gi
@@ -443,20 +442,23 @@ class Convert {
 		this.hasTitle = /<title>.+<\/title>/gi
 		this.enabledBackground = /enable-background/g 
 
-		if (typeof path !== 'string') {
-			openFile({error: `<h1>File path is not of string path.</h1>`})
-		} else 
-			this.findAndReplace()
+		if (typeof string !== 'string') {
+			console.log('not a string')
+
+			return {error: `<h1>File path is not of string path.</h1>`}
+		}
+			
 	}
 	/**
 	 * @property {Function} readFile Reads file from path given by client
 	 * @returns {Promise<String>}
 	 */
-	async readFile() {
-		let svg = await fs.readFile(this.path,'utf8')
-		this.string = svg
-		return svg
-	}
+	// async readFile() {
+	// 	const fs = require('fs').promises
+	// 	let svg = await fs.readFile(this.path,'utf8')
+	// 	this.string = svg
+	// 	return svg
+	// }
 	/**
 	 * @property {Function} stringify_CSS - Optional if user wants to leave style element in svg xml document
 	 */
@@ -486,10 +488,10 @@ class Convert {
 	/**
 	 * 
 	 * @property {Function} findAndReplace - Looks for all xml attributes that need to be replaced 
-	 * @returns {Promise<String>}
+	 * @returns {<String>}
 	 */
-	async findAndReplace() {
-		await this.readFile()
+	findAndReplace() {
+		// await this.readFile()
 		let string = this.string
 
 		const removeStyleElement = false
@@ -559,9 +561,8 @@ class Convert {
 		 * Format
 		 * See {@link Format}
 		 */
+		// console.log(this.string)
 		let formated = Format.indent(this.string)
-	
-		openFile(formated)
 		return formated
 	}
 }

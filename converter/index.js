@@ -1,4 +1,4 @@
-const ConvertSvg = require('./svgconverter');
+const {read_File_ES2016, read_File_CommonJS} = require('./controller');
 
 /**
  * 
@@ -7,24 +7,14 @@ const ConvertSvg = require('./svgconverter');
 
 /**
  * 
- * @param {String} path Stringed path to clients svg file
+ * @param {String} path - Stringed path to clients svg file, or file itself
+ * @returns {Promise}
  */
 module.exports = (path) => {
-    return new ConvertSvg(path)
+    if(process.browser) {
+        return read_File_ES2016(path)
+    } else {
+        return read_File_CommonJS(path)
+    }
 }
-
-
-// (function(exports){
-// console.log('exports:', exports)
-
-
-//     exports.convert = (path) => {
-//         return new ConvertSvg(path)
-//     }
-// //    exports.test = function(){
-
-// //         return './svgconverter.js'
-// //     };
-
-// })(typeof exports === 'undefined'? this['ConvertSvg']={}: exports);
 
