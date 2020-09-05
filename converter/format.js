@@ -72,7 +72,8 @@ class Format {
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
                 if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
-                    space += '\xa0'
+                    // space += '\xa0'
+                    space += ' '
                     newString += '\n'+space+element
                 } else
                     newString += '\n'+space+element
@@ -80,8 +81,9 @@ class Format {
             // Indents single open and closing elements <.../> or <..>...</..>
             if ( onelines ) {
                 if ( /^<[^\/]+>$|^<style.+{$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...>
-                    space += '\xa0'
-                    newString += '\n'+space+element   // Indents if previous line is different
+                    // space += '\xa0'
+                    space += ' '
+                    newString += '\n'+space+element  // Indents if previous line is different
                 } else 
                     newString += '\n'+space+element
             }

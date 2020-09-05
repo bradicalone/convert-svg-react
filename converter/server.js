@@ -1,9 +1,12 @@
 // @ts-nocheck
 const http = require('http');
 
-// For use with NodeJS only
+/**
+ * For use with NodeJS only
+ * Displays new converted svg to a usable svg react components.
+ * @param {string|object} svg 
+ */
 const openFile = (svg) => {
-    console.log('svg:', svg)
     const text = { "Content-Type": "text/plain; charset=utf-8" }
     const html = { "Content-Type": "text/html" }
     let error = svg.error
