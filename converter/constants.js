@@ -10,3 +10,4 @@ exports.isxmlPattern = /xmlns:xlink|xml:space|xlink:href/gi
 exports.cssObjects = /(\..*;})/gi
 exports.isTitle = /<title>.+<\/title>/gi
 exports.enabledBackground = /enable-background/g 
+exports.isIDorVersion = /version.*?\s|id=".*?\s/g

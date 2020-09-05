@@ -1,7 +1,5 @@
 
 const Format = require('./format')
-const http = require('http');
-const serveFile = require('./server')
 
 const {
 	stylePattern,
@@ -9,7 +7,7 @@ const {
 	isSemiColan,
 	isStyle, 
 	isColorPattern, 
-	isStopOpacity, isClassPattern, isxmlPattern, cssObjects, isTitle, enabledBackground
+	isStopOpacity, isClassPattern, isxmlPattern, cssObjects, isTitle, enabledBackground, isIDorVersion
 } = require("./constants");
 
 let test_string = ``
@@ -28,7 +26,7 @@ class Convert {
 		this.string = string
 		this.svgCSS = ''		
 	}
-	
+
 	/**
 	 * @property {Function} checkString Reads file from path given by client
 	 * @returns {object}
@@ -87,6 +85,7 @@ class Convert {
 		const hasXML = isxmlPattern.test(string)
 		const hasStopOpacity = isStopOpacity.test(string)
 		const hasEnabledBackground = enabledBackground.test(string)
+		const hasIDorVersion = isIDorVersion.test(string)
 
 		if (!typeof string) return `<div>Must be a valid string</div>`
 
@@ -137,6 +136,9 @@ class Convert {
 		}
 		if (hasTitle) {
 			this.string = this.string.replace(/<title>.*<\/title>/, '')
+		}
+		if(hasIDorVersion) {
+			this.string = this.string.replace(isIDorVersion, '')
 		}
 
 		/**
