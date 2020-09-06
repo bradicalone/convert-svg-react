@@ -16,8 +16,9 @@
   ],
   "scripts": {
     "doc": "jsdoc -c jsdoc.json",
-    "build": "webpack --watch",
+    "build:dev": "webpack --watch",
     "start:dev": "webpack-dev-server --mode development --open --hot",
+    "dev": "(npm run build:dev & npm run start:dev) || (start npm run build:dev && start npm run start:dev)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Brad Vanderbush <b.vanderbush@icloud.com>",
