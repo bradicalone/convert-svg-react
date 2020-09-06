@@ -87,7 +87,7 @@ class Format {
                     newString += element.replace(/^/g, '\n'+' '.repeat(space))
             }
             // Doesn't indent closing elements </g>, </div>, }</style> etc etc..
-            else {
+            else if ( endings ) {
                 space -= spaces;
                 newString += element.replace(/^/g, '\n'+' '.repeat(space))
             } 

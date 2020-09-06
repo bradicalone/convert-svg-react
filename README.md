@@ -68,10 +68,8 @@ npm install
 To use <svg-converter>, follow these steps:
 
 ```
-npm run build
+npm run dev
 ```
 
 - Opens in the browser, usually at `http://localhost:8000/` :
-```
-npm run start:dev
-```
+
