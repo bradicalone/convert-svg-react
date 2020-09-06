@@ -5,9 +5,10 @@
  */
 
 class Format {
-    constructor() {
+    constructor(spaces) {
         this.string = ''
         this.newString = this.string
+        this.spaces = 4
     }
     newLine() {
         if (typeof this.string !== 'string')
@@ -60,8 +61,8 @@ class Format {
         let allArray = leftFormat.match(selectAllLines); 
         let length = allArray.length
         let newString = ''
-        let spaceCount = 0
-        let space = ''
+        let space = 0
+        let spaces = this.spaces
        
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
@@ -72,30 +73,23 @@ class Format {
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
                 if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
-                    // space += '\xa0'
-                    space += ' '
-                    newString += '\n'+space+element
+                    space += spaces;
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
                 } else
-                    newString += '\n'+space+element
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
             }
             // Indents single open and closing elements <.../> or <..>...</..>
-            if ( onelines ) {
-                if ( /^<[^\/]+>$|^<style.+{$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...>
-                    // space += '\xa0'
-                    space += ' '
-                    newString += '\n'+space+element  // Indents if previous line is different
+            else if ( onelines ) {
+                if ( /^<[^\/]+>$|^<style.+{$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
+                    space += spaces;
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
                 } else 
-                    newString += '\n'+space+element
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
             }
             // Doesn't indent closing elements </g>, </div>, }</style> etc etc..
-            if ( endings ) {
-                spaceCount++
-                let spaceCountPattern = new RegExp(`\\s{${spaceCount}}`,'i')
-                space = space.replace(spaceCountPattern, '')
-                newString += '\n'+space+element
-                
-                //Resets space count 
-                spaceCount = 0
+            else {
+                space -= spaces;
+                newString += element.replace(/^/g, '\n'+' '.repeat(space))
             } 
         }
         return newString

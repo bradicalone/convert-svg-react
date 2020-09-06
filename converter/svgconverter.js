@@ -1,4 +1,3 @@
-
 const Format = require('./format')
 
 const {
@@ -61,7 +60,6 @@ class Convert {
 				toString += element.replace(/(\..*;})/gi, ' "$1"+\n');
 			}
 		}
-
 		this.string = this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 	}
 
