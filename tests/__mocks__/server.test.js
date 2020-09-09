@@ -6,15 +6,13 @@ jest.mock('http');
 describe('openFile', ()=> {
     
     it('should create server on port 8000', () => {
-        let func = jest.fn((req, res)=> {
-            res.end(content);
-        })
+        let func = jest.fn((req, res)=> {})
         
-        const server = http.createServer()
+        const server = http.createServer(func)
         expect(http.createServer).toBeCalled()
         
-        http.createServer(func);
-        openFile('<h1>hey</h1>')
+
+        // openFile('<h1>Hey You</h1>')
         
     });
 })
