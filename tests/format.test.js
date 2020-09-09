@@ -6,7 +6,7 @@ jest.mock('../converter/svgconverter');
 
     let string = '<svg>My svg</svg>'
 
-    const mockFindAndReplace = jest.fn()
+    const mockFindAndReplace = jest.fn(() => 'Function within')
     Convert.mockImplementation(() => {
         return {
             findAndReplace: mockFindAndReplace
@@ -18,7 +18,12 @@ jest.mock('../converter/svgconverter');
         mockFindAndReplace.mockClear()
     })
 
-    it('The consumer shuld be able to call new() on Convert', ()=>{
-        const convert = new Convert(string)
+    it('The consumer should be able to call new() on Convert and return string', ()=>{
+        const convert = new Convert(string).findAndReplace()
         expect(convert).toBeTruthy()
+    })
+
+    it('Convert has been called', () =>{
+        const convert = new Convert(string).findAndReplace()
+        expect(Convert).toHaveBeenCalled()
     })
