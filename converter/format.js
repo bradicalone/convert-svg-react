@@ -5,30 +5,31 @@
  */
 
 class Format {
-    constructor(spaces) {
+    constructor(spaces = 4) {
         this.string = ''
-        this.newString = this.string
-        this.spaces = 4
+        this.newString = ''
+        this.spaces = spaces
     }
     newLine() {
         if (typeof this.string !== 'string')
             return {error: '<h1>Not a valid string</h1>'}
 
-        const newLinePattern = /(<\/?\w.*>)(\w<\/?\w.*>)/gi
-        const isFormated = newLinePattern.test(this.newString)
+        const newLinePattern = /(.*\/?>)(<.*>?)/gim
+        const isFormated = newLinePattern.test(this.string)
+        console.log('isFormated:', isFormated)
 
         if ( isFormated ) {
             //Updates this.newString until new line formating is done
-            this.newString = this.newString.replace(newLinePattern, '$1\n$2')
+            this.string = this.string.replace(newLinePattern, '$1\n$2')
             this.newLine()
-            return this.newString
+            return this.string
         } else {
             return this.string
         }
     }
 
     elementOnOwnLines() {
-        let newLine = this.newLine()
+        const newLine = this.newLine()
         if (!newLine) 
             return {error: '<h1>Can\'t format new lines</h1>'}
 
@@ -53,7 +54,7 @@ class Format {
         return formatLeft
     }
 
-    indent(string){
+    indent(string, styleElement){
         this.string = string
         const leftFormat = this.leftFormat()
         
@@ -66,9 +67,9 @@ class Format {
        
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
-            let beginnings = /<svg.+>|^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
-            let endings = /(?<!.+)<\/.*>|^}<\/style>$/gi.test(element) // </...> or }</style>
+            let beginnings = /<svg.+>|<style type="text\/css">|^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
+            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]?\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+            let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element) // </...> or }</style>
 
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
@@ -80,7 +81,7 @@ class Format {
             }
             // Indents single open and closing elements <.../> or <..>...</..>
             else if ( onelines ) {
-                if ( /^<[^\/]+>$|^<style.+{$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
+                if ( /^<[^\/]+>$|^<style.+{?>?$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
                     space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
                 } else 

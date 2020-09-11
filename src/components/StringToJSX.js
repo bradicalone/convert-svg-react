@@ -35,6 +35,10 @@ let createJSX = (nodeArray) => {
                         attributeObj['className'] = attribute.nodeValue;
                     } else if (attribute.name === 'xmlspace') {
                         attributeObj['xmlSpace'] = attribute.nodeValue;
+                        
+                    } else if (attribute.name === 'stopcolor') {
+                        attributeObj['stopColor'] = attribute.nodeValue;
+                        
                     } else {
                         attributeObj[attribute.name] = attribute.nodeValue;
                     }
