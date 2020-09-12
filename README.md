@@ -31,7 +31,7 @@ const convert = require('convert-svg');
 convert('./path/tosvg/file.svg');
 ```
 
-Using an inline xml SVG:
+### Using an inline xml SVG:
 
 * Example below of an svg inline element before to be converted into a useable react component:
 
@@ -62,11 +62,11 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 </div>
 ```
 
-Converted: 
+### Converted: 
   * Open browser ` http://localhost:8000/ `
   * Properly indented
   * Attributes changed for JSX
-  * Elements on their own lines
+  * Elements on their own lines 
   * Inline Style element interpolation: `{<Style ....>}`
 
 ```xml
@@ -110,13 +110,11 @@ Converted:
 import convert from 'svg-react'
 import svgFile from '../public/alarm-gradient.svg'
 
-convert('./path/tosvg/file.svg');
 
 function App(props) {
     const [svg, setSvg] = useState('')
 
     useEffect(()=> {
-        // Returns a promise
         convert(svgFile).then(svg => setSvg(svg))
     },[])
 
