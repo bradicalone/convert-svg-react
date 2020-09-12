@@ -107,9 +107,8 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 
 ```js
 // Not uploaded to NPM still testing.. 
-import convert from 'svg-react'
 import svgFile from '../public/alarm-gradient.svg'
-
+import convert from 'svg-react'
 
 function App(props) {
     const [svg, setSvg] = useState('')
