@@ -4,7 +4,25 @@
 attribute had to be changed, even some of the structure of the code. Most SVG files can be lengthy and to go through all the code replace everything by hand can take a long time. So this does it 
 for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. 
 
-## Usage
+## Installing <svg-to-react-converter>
+
+To install , follow these steps:
+- Clone repository
+- `cd svg-react-converter`
+
+```
+npm install
+```
+
+## Using in Development
+
+To use <svg-converter>, follow these steps:
+
+```
+npm run dev
+```
+
+## Usage CommonJS (NodeJS)
 
 ```js
 // Not uploaded to NPM still testing.. 
@@ -45,6 +63,7 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 ```
 
 Converted: 
+  * Open browser ` http://localhost:8000/ `
   * Properly indented
   * Attributes changed for JSX
   * Elements on their own lines
@@ -84,23 +103,37 @@ Converted:
 </div>
 ```
 
-## Installing <svg-to-react-converter>
+## Usage Example Client (ReactJS)
 
-To install , follow these steps:
-- Clone repository
-- `cd svg-react-converter`
+```js
+// Not uploaded to NPM still testing.. 
+import convert from 'svg-react'
+import svgFile from '../public/alarm-gradient.svg'
 
+convert('./path/tosvg/file.svg');
+
+function App(props) {
+    const [svg, setSvg] = useState('')
+
+    useEffect(()=> {
+        // Returns a promise
+        convert(svgFile).then(svg => setSvg(svg))
+    },[])
+
+    return (
+        <>      
+            {/* Will display your converted code for copying as well as your svg */}
+            {svg && svg.jsx}
+        </>
+    );
+}
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('app')
+);
 ```
-npm install
-```
 
-## Using in Development
 
-To use <svg-converter>, follow these steps:
 
-```
-npm run dev
-```
-
-- Opens in the browser, usually at `http://localhost:8000/` :
 
