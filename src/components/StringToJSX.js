@@ -1,62 +1,81 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import CreateSVG from './CreateSVG';
 let String = ReactDOMServer.renderToStaticMarkup()
 
+let getColsWidth = nodeArray => {
 
+    let maxLineLength = nodeArray[0].length
+    let lineNumber = []
+    nodeArray.forEach((line, i)=> {
+        lineNumber.push(i+1)
+        if(line.length > maxLineLength) maxLineLength = line.length
+    })
+    return {lineLength: maxLineLength, lineNumber}
+}
 let getNodes = str => {
-    return new DOMParser().parseFromString(str, "text/html").body.childNodes
+    // return new DOMParser().parseFromString(str, "text/html").body.childNodes
+    return {
+        nodeArray: new DOMParser().parseFromString(str, "application/xml").childNodes,
+        string: str.split('\n')
+    }
 };
 
-let createJSX = (nodeArray) => {
-
-    // const className = nodeArray[0].className;
-
-    return Array.prototype.map.call(nodeArray, (node, i) => {
-        let attributeObj = {};
-        
-        const { attributes, localName, childNodes, nodeValue } = node;
-
-        if (attributes) {
-            Array.from(attributes).forEach(attribute => {
- 
-                if (attribute.name === "style") {
-                    let styleAttributes = attribute.nodeValue.split(";");
-                    let styleObj = {};
-                    styleAttributes.forEach(attribute => {
-                        let [key, value] = attribute.split(":");
-                        styleObj[key] = value;
-                    });
-                    attributeObj[attribute.name] = styleObj;
-                } else {
-                    // Javascript wants to ignore camel casing, once again have to change attribute properties.
-                    if(attribute.name === 'xmlnsxlink') {
-                        attributeObj['xmlnsXlink'] = attribute.nodeValue
-                    } else if (attribute.name === 'classname') {
-                        attributeObj['className'] = attribute.nodeValue;
-                    } else if (attribute.name === 'xmlspace') {
-                        attributeObj['xmlSpace'] = attribute.nodeValue;
-                        
-                    } else if (attribute.name === 'stopcolor') {
-                        attributeObj['stopColor'] = attribute.nodeValue;
-                        
-                    } else {
-                        attributeObj[attribute.name] = attribute.nodeValue;
+let createJSX = (nodeObj) => {
+        let svgString = nodeObj.string
+        let nodeArray = nodeObj.nodeArray
+        return [CreateSVG(nodeArray),
+        React.createElement(
+            'div',
+            {
+                key: 'container',
+                style: {
+                    display: 'flex',
+                    overflow: 'scroll',
+                    background: 'rgb(45 45 45)',
+                    width: 'auto',
+                    height: '100%',
+                    resize: 'none'
+                }
+            },
+            React.createElement(
+                'textarea',
+                {
+                    rows: svgString.length,
+                    cols: 1,
+                    defaultValue: getColsWidth(svgString).lineNumber.join('\n'),
+                    style : {
+                        className: 'numbered',
+                        textAlign: 'right',
+                        minWidth: '1rem',
+                        padding: ' 0 5px',
+                        border: 'none',
+                        background: 'rgb(45 45 45)',
+                        color: 'rgb(183 183 183)',
+                        resize: 'none'
                     }
                 }
-            });
-        }
-
-        attributeObj.key = i
-
-        return localName ?
+            ),
             React.createElement(
-                localName,
-                attributeObj,
-                childNodes && Array.isArray(Array.from(childNodes)) ?
-                    createJSX( Array.from(childNodes)) : [] ) : nodeValue;
-
-    });
-};
+                'textarea',
+                {
+                    rows: svgString.length + 1,
+                    cols: getColsWidth(svgString).lineLength,
+                    defaultValue: svgString.join('\n'),
+                    style : {
+                        className: 'svg-code',
+                        flexShrink: '0',
+                        border: 'none',
+                        background: 'rgb(45 45 45)',
+                        color: 'rgb(237 236 255)',
+                        overflow: 'scroll'
+                    }
+                }
+                
+            )
+        )]
+     
+}
 
 export const StringToJSX = props => {
     return createJSX(getNodes(props));

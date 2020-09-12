@@ -7,7 +7,6 @@
 class Format {
     constructor(spaces = 4) {
         this.string = ''
-        this.newString = ''
         this.spaces = spaces
     }
     newLine() {
@@ -16,12 +15,10 @@ class Format {
 
         const newLinePattern = /(.*\/?>)(<.*>?)/gim
         const isFormated = newLinePattern.test(this.string)
-        console.log('isFormated:', isFormated)
 
         if ( isFormated ) {
-            //Updates this.newString until new line formating is done
             this.string = this.string.replace(newLinePattern, '$1\n$2')
-            this.newLine()
+            this.newLine() // Updates this.newString until new line formating is done
             return this.string
         } else {
             return this.string
@@ -59,7 +56,7 @@ class Format {
         const leftFormat = this.leftFormat()
         
         let selectAllLines = /.+/gi
-        let allArray = leftFormat.match(selectAllLines); 
+        let allArray = leftFormat.match(selectAllLines)
         let length = allArray.length
         let newString = ''
         let space = 0
@@ -74,10 +71,12 @@ class Format {
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
                 if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
+                    
                     space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                } else
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                    
+                } else 
+                    newString += element.replace(/^/g, i===0?'':'\n'+' '.repeat(space)) // First line, only adds new line (\n) if it's not the first line
             }
             // Indents single open and closing elements <.../> or <..>...</..>
             else if ( onelines ) {

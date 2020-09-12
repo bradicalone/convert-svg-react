@@ -5,7 +5,7 @@
   "main": "converter/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bradicalone/svg-react-converter.git"
+    "url": "git+https://github.com/bradicalone/svg-react.git"
   },
   "keywords": [
     "Javascript",

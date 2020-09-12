@@ -4,11 +4,11 @@
 attribute had to be changed, even some of the structure of the code. Most SVG files can be lengthy and to go through all the code replace everything by hand can take a long time. So this does it 
 for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. 
 
-## Installing <svg-to-react-converter>
+## Installing <svg-react>
 
 To install , follow these steps:
 - Clone repository
-- `cd svg-react-converter`
+- `cd svg-react`
 
 ```
 npm install
@@ -106,7 +106,7 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 ## Usage Example Client (ReactJS)
 
 ```js
-// Not uploaded to NPM still testing.. 
+
 import svgFile from '../public/alarm-gradient.svg'
 import convert from 'svg-react'
 
