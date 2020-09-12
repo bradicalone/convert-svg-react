@@ -120,7 +120,7 @@ function App(props) {
     return (
         <>      
             {/* Will display your converted code for copying as well as your svg */}
-            {svg && svg.jsx}
+            {svg && svg}
         </>
     );
 }
