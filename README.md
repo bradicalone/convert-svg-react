@@ -2,7 +2,7 @@
 
 `convert-svg-react` was started because I work with a lot of web animations, and ran into a wall when trying to use inline SVG (XML) with ReactJS. React would complain everywhere, almost every SVG 
 attribute had to be changed, even some of the structure of the code. Most SVG files can be lengthy and to go through all the code replace everything by hand can take a long time. So this does it 
-for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. 
+for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. Will output new svg xml markup to be copied into your React file. 
 
 ## Installation <convert-svg-react>
 
@@ -95,7 +95,7 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 
 ![Alt text](./node-example.png)
 
-## Usage Example Client (ReactJS)
+## Usage Example Client (ReactJS):
 
 ```js
 
@@ -125,6 +125,7 @@ ReactDOM.render(
 ```
 
 ### Renders as such:
+
     * Your actual svg converted
     * Converted svg / xml to be copied for React
 
