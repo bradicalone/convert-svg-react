@@ -21,7 +21,7 @@ convert('./path/tosvg/file.svg');
 
 ### Using an inline xml SVG:
 
-* Example below of an svg inline element before to be converted into a useable react component:
+* Example below of a poorly indented messy SVG inline element to be converted into a useable react component:
 
 ```xml
 <div class="alarm-svg-container"><svg version="1.1" id="clock" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
