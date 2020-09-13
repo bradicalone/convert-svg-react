@@ -9,7 +9,7 @@ for you in so many different ways. You can take your `Adobe Ai` svg file and pas
 Use with [npm](http://npmjs.com):
 
 ```
-npm install --convert-svg-react
+npm install --save convert-svg-react
 ```
 
 ## Usage CommonJS (NodeJS)
