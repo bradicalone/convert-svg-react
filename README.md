@@ -91,6 +91,10 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 </div>
 ```
 
+## Actual file output CommonJS (NodeJS):
+
+![Alt text](./node-example.png)
+
 ## Usage Example Client (ReactJS)
 
 ```js
@@ -119,6 +123,12 @@ ReactDOM.render(
     document.getElementById('app')
 );
 ```
+
+### Renders as such:
+    * Your actual svg converted
+    * Converted svg / xml to be copied for React
+
+![Alt text](./client-example.png)
 
 
 

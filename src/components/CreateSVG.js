@@ -1,7 +1,6 @@
 import React from 'react';
 
 let CreateSVG = (nodeArray) => {
-    // style:{width: '5rem', height: '5rem'}
     return Array.prototype.map.call(nodeArray, (node, i) => {
         let attributeObj = {};
         

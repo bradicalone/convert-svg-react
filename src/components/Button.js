@@ -15,12 +15,21 @@ let Button = () => {
             style: {
                 position: 'absolute',
                 right: '15px',
+                height: '40px',
                 margin: '15px',
                 border: 'none',
-                padding: '5px 10px'
+                padding: '0 10px',
+                borderRadius: '2px',
+                cursor: 'pointer',
+                background: '#dac0a7',
+                color: '#fff',
+                fontSize: '15px',
+                fontWeight: '600',
+                letterSpacing: '.025em',
+                boxShadow: '0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)'
             }
         },
-        'Copy Text'
+        'COPY IN CLIPBOARD'
     )
 }
 

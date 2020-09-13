@@ -28,9 +28,10 @@ let getNodes = str => {
 }
 
 let createJSX = (nodeObj) => {
-        let svgString = nodeObj.string
-        let nodeArray = nodeObj.nodeArray
-        return [CreateSVG(nodeArray),
+    let svgString = nodeObj.string
+    let nodeArray = nodeObj.nodeArray
+    return [
+        CreateSVG(nodeArray),
         React.createElement(
             'div',
             {
@@ -76,7 +77,7 @@ let createJSX = (nodeObj) => {
                         color: 'rgb(237 236 255)',
                         overflow: 'scroll',
                         paddingLeft: '15px',
-                        resize: 'none'
+                        resize: 'none',
                     }
                 }
             )

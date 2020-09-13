@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => {
     const isProduction = env === 'production';
@@ -28,11 +27,6 @@ module.exports = (env) => {
         devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
         devServer: {
             historyApiFallback: true,
-        },
-        plugins: [
-            new HtmlWebpackPlugin({
-                template: './src/index.html',
-            }),
-        ],
+        }
     }
 }
