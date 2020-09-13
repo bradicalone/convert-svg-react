@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import CreateSVG from './CreateSVG';
+import Button from './Button'
 let String = ReactDOMServer.renderToStaticMarkup()
 
 let getColsWidth = nodeArray => {
-
     let maxLineLength = nodeArray[0].length
     let lineNumber = []
     nodeArray.forEach((line, i)=> {
@@ -13,13 +13,19 @@ let getColsWidth = nodeArray => {
     })
     return {lineLength: maxLineLength, lineNumber}
 }
+
 let getNodes = str => {
     // return new DOMParser().parseFromString(str, "text/html").body.childNodes
+
+    let stripedStyle = str.replace(/\}(?=<\/style)|"(?=\.\w)|("\+)$|{?$|(?<=\})"$/gm, '')
+
+    console.log('stripedStyle:', stripedStyle)
+
     return {
-        nodeArray: new DOMParser().parseFromString(str, "application/xml").childNodes,
+        nodeArray: new DOMParser().parseFromString(stripedStyle, "application/xml").childNodes,
         string: str.split('\n')
     }
-};
+}
 
 let createJSX = (nodeObj) => {
         let svgString = nodeObj.string
@@ -68,11 +74,15 @@ let createJSX = (nodeObj) => {
                         border: 'none',
                         background: 'rgb(45 45 45)',
                         color: 'rgb(237 236 255)',
-                        overflow: 'scroll'
+                        overflow: 'scroll',
+                        paddingLeft: '15px',
+                        resize: 'none'
                     }
                 }
             )
-        )]
+        ),
+        Button()
+    ]
      
 }
 

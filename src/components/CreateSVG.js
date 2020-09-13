@@ -1,9 +1,9 @@
 import React from 'react';
 
 let CreateSVG = (nodeArray) => {
-
+    // style:{width: '5rem', height: '5rem'}
     return Array.prototype.map.call(nodeArray, (node, i) => {
-        let attributeObj = {style:{width: '5rem', height: '5rem'}};
+        let attributeObj = {};
         
         const { attributes, localName, childNodes, nodeValue } = node;
         
@@ -20,7 +20,9 @@ let CreateSVG = (nodeArray) => {
                     attributeObj[attribute.name] = styleObj;
                 } else {
                     attributeObj[attribute.name] = attribute.nodeValue;
-                    console.log('attribute.name:', attribute.name)
+
+                    // Adds inline style to svg 
+                    if(localName === 'svg') attributeObj.style = {width: '5rem', height: '5rem'}
                 }
             });
         }
