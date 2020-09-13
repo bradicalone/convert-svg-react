@@ -55,7 +55,7 @@ let createJSX = (nodeObj) => {
                         className: 'numbered',
                         textAlign: 'right',
                         minWidth: '1rem',
-                        padding: ' 0 5px',
+                        padding: '10px 5px 0 5px',
                         border: 'none',
                         background: 'rgb(45 45 45)',
                         color: 'rgb(183 183 183)',
@@ -77,6 +77,7 @@ let createJSX = (nodeObj) => {
                         color: 'rgb(237 236 255)',
                         overflow: 'scroll',
                         paddingLeft: '15px',
+                        paddingTop: '10px',
                         resize: 'none',
                     }
                 }
