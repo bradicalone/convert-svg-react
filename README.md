@@ -1,33 +1,21 @@
 # SVG Converter
 
-`svg-react` was started because I work with a lot of web animations, and ran into a wall when trying to use inline SVG (XML) with ReactJS. React would complain everywhere, almost every SVG 
+`convert-svg-react` was started because I work with a lot of web animations, and ran into a wall when trying to use inline SVG (XML) with ReactJS. React would complain everywhere, almost every SVG 
 attribute had to be changed, even some of the structure of the code. Most SVG files can be lengthy and to go through all the code replace everything by hand can take a long time. So this does it 
 for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. 
 
-## Installing <svg-react>
+## Installation <convert-svg-react>
 
-To install , follow these steps:
-- Clone repository
-- `cd svg-react`
+Use with [npm](http://npmjs.com):
 
 ```
-npm install
-```
-
-## Using in Development
-
-To use <svg-converter>, follow these steps:
-
-```
-npm run dev
+npm install --convert-svg-react
 ```
 
 ## Usage CommonJS (NodeJS)
 
 ```js
-// Not uploaded to NPM still testing.. 
-const convert = require('convert-svg');
-
+const convert = require('convert-svg-react');
 convert('./path/tosvg/file.svg');
 ```
 
@@ -108,7 +96,8 @@ c0-115.3,93.5-208.8,208.8-208.8s208.8,93.5,208.8,208.8c0,68.8-33.3,129.8-84.6,16
 ```js
 
 import svgFile from '../public/alarm-gradient.svg'
-import convert from 'svg-react'
+// Returns a promise
+import convert from 'convert-svg-react'
 
 function App(props) {
     const [svg, setSvg] = useState('')

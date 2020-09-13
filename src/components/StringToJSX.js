@@ -71,7 +71,6 @@ let createJSX = (nodeObj) => {
                         overflow: 'scroll'
                     }
                 }
-                
             )
         )]
      
