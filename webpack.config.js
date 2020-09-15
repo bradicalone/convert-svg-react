@@ -3,10 +3,9 @@ const path = require('path');
 module.exports = (env) => {
     const isProduction = env === 'production';
     return  {
-        entry: './src/index.js',
+        entry: ['./src/index.js', './converter'],
         output: {
             path: path.join(__dirname, '/dist'),
-            filename: 'index_bundle.js',
         },
         module: { 
             rules: [
