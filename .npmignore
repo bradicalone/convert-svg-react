@@ -2,3 +2,5 @@
 /doc
 *.svg
 /src
+tests
+.vscode

@@ -22,10 +22,11 @@ class Convert {
 	 *
 	 */
 	constructor(string) {
+		
 		this.string = string
 		this.svgCSS = ''		
 	}
-
+	
 	/**
 	 * @property {Function} checkString Reads file from path given by client
 	 * @returns {object}
@@ -44,7 +45,6 @@ class Convert {
 	stringify_STYLE_ELEM() {
 		let CSSobjects = this.string.match(cssObjects)
 		let length = CSSobjects.length
-		let last = CSSobjects[length - 1]
 		let toString = ''
 		for (let i = 0; i < length; i++) {
 			const element = CSSobjects[i];
@@ -71,22 +71,25 @@ class Convert {
 	findAndReplace() {
 		this.checkString()
 		let string = this.string
-
+		
 		const removeStyleElement = false
 		const styleElement = stylePattern.test(string);
 		const hasColan = isColan.test(string)
 		const hasStyle = isStyle.test(string)
+
+		// G flag problem created. 
+		const hasEnabledBackground = enabledBackground.test(string)
 		const hasSemiColan = isSemiColan.test(string)
 		const isGradientStyle = isColorPattern.test(string)
 		const hasClass = isClassPattern.test(string)
 		const hasTitle = isTitle.test(string)
 		const hasXML = isxmlPattern.test(string)
 		const hasStopOpacity = isStopOpacity.test(string)
-		const hasEnabledBackground = enabledBackground.test(string)
+		
 		const hasIDorVersion = isIDorVersion.test(string)
-
+		
 		if (!typeof string) return `<div>Must be a valid string</div>`
-
+		
 		if (hasXML) {
 			switch (true) {
 				case /xmlns:xlink/gi.test(string):
@@ -103,6 +106,7 @@ class Convert {
 		//        }
 		// 	  </style>
 		//  Or leave it, stringify it and use it within React
+		
 		if (styleElement) {
 			if (removeStyleElement) {
 				this.string = this.string.replace(stylePattern, '')
@@ -112,9 +116,9 @@ class Convert {
 				this.stringify_STYLE_ELEM()
 			}
 		}
-		if (hasEnabledBackground) {
-			this.string = this.string.replace(/enable-background.+"\s/g, '')
-		}
+			
+		this.string = this.string.replace(/enable-background.+"/g, '')
+		
 		if (hasColan) {
 			this.string = this.string.replace(isColan, '="')
 		}

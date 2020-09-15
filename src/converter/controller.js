@@ -23,12 +23,15 @@ async function read_File_CommonJS(path) {
  * @param {string} path - path to svg file or file itself
  * @returns {Promise}
  */
+
 async function read_File_ES2016(path) {
+    
     const { StringToJSX }  = require('../components/StringToJSX')
     
-    // Will make ReactJS and VueJS svg resuable component from here
+    // Will make VueJS svg resuable component from here
     let res = await fetch(path)
     let svg = await res.text()
+
     let REACTsvg = new ConvertSvg(svg).findAndReplace()
 
     return StringToJSX( REACTsvg )

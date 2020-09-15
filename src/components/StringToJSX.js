@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import CreateSVG from './CreateSVG';
-import Button from './Button'
-let String = ReactDOMServer.renderToStaticMarkup()
+import Button from './Button';
 
 let getColsWidth = nodeArray => {
     let maxLineLength = nodeArray[0].length
@@ -18,8 +17,6 @@ let getNodes = str => {
     // return new DOMParser().parseFromString(str, "text/html").body.childNodes
 
     let stripedStyle = str.replace(/\}(?=<\/style)|"(?=\.\w)|("\+)$|{?$|(?<=\})"$/gm, '')
-
-    console.log('stripedStyle:', stripedStyle)
 
     return {
         nodeArray: new DOMParser().parseFromString(stripedStyle, "application/xml").childNodes,
