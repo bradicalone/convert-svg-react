@@ -2,7 +2,7 @@
   "name": "convert-svg-react",
   "version": "0.1.1-alpha.2",
   "description": "Converts SVG XML code to be used as ReactJS component.",
-  "main": "converter/index.js",
+  "main": "lib/converter/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bradicalone/convert-svg-react"
@@ -16,7 +16,7 @@
     "svg"
   ],
   "scripts": {
-    "compile": "npx babel src converter --out-dir lib",
+    "compile": "npx babel src --out-dir lib",
     "doc": "jsdoc -c jsdoc.json",
     "build:dev": "webpack --watch",
     "start:dev": "webpack-dev-server --mode development --open --hot",

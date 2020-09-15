@@ -24,7 +24,7 @@ async function read_File_CommonJS(path) {
  * @returns {Promise}
  */
 async function read_File_ES2016(path) {
-    const { StringToJSX }  = require('../src/components/StringToJSX')
+    const { StringToJSX }  = require('../components/StringToJSX')
     
     // Will make ReactJS and VueJS svg resuable component from here
     let res = await fetch(path)

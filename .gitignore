@@ -16,4 +16,5 @@ npm-debug.log*
 *.log
 
 dist
+lib
 docs
