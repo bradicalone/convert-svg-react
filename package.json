@@ -1,6 +1,6 @@
 {
   "name": "convert-svg-react",
-  "version": "0.1.1-alpha.5",
+  "version": "0.1.1-alpha.6",
   "description": "Converts SVG XML code to be used as ReactJS component.",
   "main": "lib/converter/index.js",
   "repository": {
