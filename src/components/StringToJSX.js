@@ -14,12 +14,11 @@ let getColsWidth = nodeArray => {
 }
 
 let getNodes = str => {
-    // return new DOMParser().parseFromString(str, "text/html").body.childNodes
-
-    let stripedStyle = str.replace(/\}(?=<\/style)|"(?=\.\w)|("\+)$|{?$|(?<=\})"$/gm, '')
+    const stripedStyle = str.replace(/\}(?=<\/style)|"(?=\.\w)|("\+)$|\{?$/gmi, '');
+    const stripedLastQuote = stripedStyle.replace(/(.*;\})(")$/gm, '$1') // So stupid!
 
     return {
-        nodeArray: new DOMParser().parseFromString(stripedStyle, "application/xml").childNodes,
+        nodeArray: new DOMParser().parseFromString(stripedLastQuote, "application/xml").childNodes,
         string: str.split('\n')
     }
 }
@@ -27,60 +26,72 @@ let getNodes = str => {
 let createJSX = (nodeObj) => {
     let svgString = nodeObj.string
     let nodeArray = nodeObj.nodeArray
+
     return [
-        CreateSVG(nodeArray),
         React.createElement(
             'div',
             {
-                key: 'container',
+                key: 'wrapper',
                 style: {
                     display: 'flex',
-                    overflow: 'scroll',
-                    background: 'rgb(45 45 45)',
-                    width: 'auto',
-                    height: '100%',
-                    resize: 'none'
+                    flexDirection: 'column-reverse',
+                    position: 'relative',
                 }
             },
+            CreateSVG(nodeArray),
             React.createElement(
-                'textarea',
+                'div',
                 {
-                    rows: svgString.length,
-                    cols: 1,
-                    defaultValue: getColsWidth(svgString).lineNumber.join('\n'),
-                    style : {
-                        className: 'numbered',
-                        textAlign: 'right',
-                        minWidth: '1rem',
-                        padding: '10px 5px 0 5px',
-                        border: 'none',
+                    key: 'container',
+                    style: {
+                        display: 'flex',
+                        overflow: 'scroll',
                         background: 'rgb(45 45 45)',
-                        color: 'rgb(183 183 183)',
+                        width: 'auto',
+                        height: '100%',
                         resize: 'none'
                     }
-                }
-            ),
-            React.createElement(
-                'textarea',
-                {
-                    rows: svgString.length + 1,
-                    cols: getColsWidth(svgString).lineLength,
-                    defaultValue: svgString.join('\n'),
-                    style : {
-                        className: 'svg-code',
-                        flexShrink: '0',
-                        border: 'none',
-                        background: 'rgb(45 45 45)',
-                        color: 'rgb(237 236 255)',
-                        overflow: 'scroll',
-                        paddingLeft: '15px',
-                        paddingTop: '10px',
-                        resize: 'none',
+                },
+                React.createElement(
+                    'textarea',
+                    {
+                        rows: svgString.length,
+                        cols: 1,
+                        defaultValue: getColsWidth(svgString).lineNumber.join('\n'),
+                        style : {
+                            className: 'numbered',
+                            textAlign: 'right',
+                            minWidth: '1rem',
+                            padding: '10px 5px 0 5px',
+                            border: 'none',
+                            background: 'rgb(45 45 45)',
+                            color: 'rgb(183 183 183)',
+                            resize: 'none'
+                        }
                     }
-                }
-            )
-        ),
-        Button()
+                ),
+                React.createElement(
+                    'textarea',
+                    {
+                        rows: svgString.length + 1,
+                        cols: getColsWidth(svgString).lineLength,
+                        defaultValue: svgString.join('\n'),
+                        style : {
+                            className: 'svg-code',
+                            flexShrink: '0',
+                            border: 'none',
+                            background: 'rgb(45 45 45)',
+                            color: 'rgb(237 236 255)',
+                            overflow: 'scroll',
+                            paddingLeft: '15px',
+                            paddingTop: '10px',
+                            resize: 'none',
+                        }
+                    }
+                )
+            ),
+            Button()
+        )
     ]
      
 }

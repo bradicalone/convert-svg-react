@@ -21,7 +21,7 @@ let CreateSVG = (nodeArray) => {
                     attributeObj[attribute.name] = attribute.nodeValue;
 
                     // Adds inline style to svg 
-                    if(localName === 'svg') attributeObj.style = {width: '5rem', height: '5rem'}
+                    if(localName === 'svg') attributeObj.style = {width: '5rem', height: '5rem', margin: '10px'}
                 }
             });
         }

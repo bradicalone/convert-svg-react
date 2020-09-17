@@ -14,9 +14,9 @@ let Button = () => {
             onClick: () => {copySVGstring()},
             style: {
                 position: 'absolute',
-                right: '15px',
+                left: '150px',
+                bottom: '40px',
                 height: '40px',
-                margin: '15px',
                 border: 'none',
                 padding: '0 10px',
                 borderRadius: '2px',

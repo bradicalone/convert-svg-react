@@ -65,16 +65,14 @@ class Format {
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
             let beginnings = /<svg.+>|<style type="text\/css">|^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(?<!<)\w.+[^>]$|^\w.+\/?>$|^['"]?\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
-            let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element) // </...> or }</style>
+            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^\w.+[^>]$|^\w.+\/?>$|^['"]?\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+            let endings = /^<\/.*>|^}?<\/style>$/gi.test(element) // </...> or }</style>
 
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
-                if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
-                    
+                if ( (/^<[^\/]+>$|^[^<]\w.+[^\/]>$/gi.test(allArray[i-1])) ) {   // Tests previous element is the same, if so add space
                     space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                    
                 } else 
                     newString += element.replace(/^/g, i===0?'':'\n'+' '.repeat(space)) // First line, only adds new line (\n) if it's not the first line
             }

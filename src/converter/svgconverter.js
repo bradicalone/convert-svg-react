@@ -116,11 +116,11 @@ class Convert {
 				this.stringify_STYLE_ELEM()
 			}
 		}
-			
-		this.string = this.string.replace(/enable-background.+"/g, '')
+
+		this.string = this.string.replace(/enable-background.+"\s/g, '')
 		
 		if (hasColan) {
-			this.string = this.string.replace(isColan, '="')
+			this.string =  this.string.replace(/(.*\sstyle=".*)(:)(.*\/>)/gi, '$1="$3')
 		}
 		if (hasStyle) {
 			this.string = this.string.replace(isStyle, '')
@@ -143,12 +143,13 @@ class Convert {
 		if(hasIDorVersion) {
 			this.string = this.string.replace(isIDorVersion, '')
 		}
-
+		
 		/**
 		 * Format
 		 * See {@link Format}
 		 */
 		let formated = Format.indent(this.string, this.svgCSS)
+
 		return formated
 	}
 }

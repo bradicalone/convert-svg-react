@@ -1,6 +1,6 @@
 
-exports.stylePattern = /<style([\s\S]*)<\/style>/gi
-exports.isColan = /(?<=style=".+):/gi
+exports.stylePattern = /<style([\s\S]*)<\/style>/i
+exports.isColan = /(.*\sstyle=".*)(:)(.*\/>)/gi
 exports.isSemiColan = /;(?!\})/gi
 exports.isStyle = /style(=|:)"/gi
 exports.isColorPattern = /stop-color/gi
