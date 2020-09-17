@@ -46,20 +46,30 @@ class Convert {
 		let CSSobjects = this.string.match(cssObjects)
 		let length = CSSobjects.length
 		let toString = ''
+
 		for (let i = 0; i < length; i++) {
 			const element = CSSobjects[i];
 
+			// If only one css object exist
+			if( length === 1 )  {
+				toString += element.replace(/(\..*;})/i, '<style type="text/css">{\n"$1"\n}</style>');
+				break;
+			}
+
+			// Replaces first line
+			if (i === 0) {
+				toString += element.replace(/(\..*;})/i, '<style type="text/css">{\n"$1"+\n');
+			}
 			// Replaces last line
-			if (i === length - 1) {
-				toString += element.replace(/(\..*;})/gi, '"$1"\n}</style>');
-				// Replaces first line
-			} else if (i === 0) {
-				toString += element.replace(/(\..*;})/gi, '<style type="text/css">{\n"$1"+\n');
-				// Replaces every line but first and last
-			} else {
-				toString += element.replace(/(\..*;})/gi, ' "$1"+\n');
+			else if (i === length - 1 ) {
+				toString += element.replace(/(\..*;})/i, '"$1"\n}</style>');
+			} 
+			// Replaces every other line
+			else {
+				toString += element.replace(/(\..*;})/i, ' "$1"+\n');
 			}
 		}
+		
 		this.string = this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 	}
 
@@ -118,9 +128,11 @@ class Convert {
 		}
 
 		this.string = this.string.replace(/enable-background.+"\s/g, '')
-		
+
 		if (hasColan) {
+			
 			this.string =  this.string.replace(/(.*\sstyle=".*)(:)(.*\/>)/gi, '$1="$3')
+
 		}
 		if (hasStyle) {
 			this.string = this.string.replace(isStyle, '')

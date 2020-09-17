@@ -11,7 +11,7 @@ const {read_File_ES2016, read_File_CommonJS} = require('./controller');
  * @returns {Promise}
  */
 module.exports = (path) => {
-    // @ts-ignore
+// @ts-ignore
     if (process.browser) {
         return read_File_ES2016(path)
     } else {
