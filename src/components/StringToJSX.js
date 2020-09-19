@@ -14,12 +14,9 @@ let getColsWidth = nodeArray => {
 }
 
 let getNodes = str => {
-    const stripedStyle = str.replace(/\}(?=<\/style)|"(?=\.\w)|("\+)$|\{?$/gmi, '');
-    const stripedLastQuote = stripedStyle.replace(/(.*;\})(")$/gm, '$1') // So stupid!
-
     return {
-        nodeArray: new DOMParser().parseFromString(stripedLastQuote, "application/xml").childNodes,
-        string: str.split('\n')
+        nodeArray: new DOMParser().parseFromString(str.renderedSVG, "application/xml").childNodes,
+        string: str.forCopy.split('\n')
     }
 }
 

@@ -54,8 +54,7 @@ class Format {
     indent(string, styleElement){
         this.string = string
         const leftFormat = this.leftFormat()
-        
-        let selectAllLines = /.+/gi
+        const selectAllLines = /.+/gi
         let allArray = leftFormat.match(selectAllLines)
         let length = allArray.length
         let newString = ''
@@ -64,8 +63,8 @@ class Format {
        
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
-            let beginnings = /<svg.+>|<style type="text\/css">|^<[^\/]+>$|^<[^\/].*[^>]$/gi.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^\w.+\/?>$|^['"]?\..*/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+            let beginnings = /<svg.+>|<style type="text\/css">|<[^\/].*>|^<[^\/].*[^>]$/i.test(element); // <...> or <.....
+            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^\w.+\/?>$|^['"]?\..*|<\/image>/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
             let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element)
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
@@ -78,9 +77,7 @@ class Format {
             // **** TO DO indent strings under the <path element  ......   ^<.+([\w\d-,.]+)$  ***
             // Indents single open and closing elements <.../> or <..>...</..>
             else if ( onelines ) {
-
                 if ( /^<[^\/]+>$|^<style.+{?>?$|^[\w|-|\.].+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
-                // if ( /^<[^\/]+>$|^<style.+{?>?$|^\w.+[^\/]>$/gi.test(allArray[i-1]) ) { 
                 space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
                 } else 

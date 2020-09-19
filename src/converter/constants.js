@@ -2,7 +2,7 @@
 exports.stylePattern = /<style([\s\S]*)<\/style>/i
 exports.isColan = /(.*\sstyle=".*)(:)(.*\/>)/gi
 exports.isSemiColan = /;(?!\})/gi
-exports.isStyle = /style(=|:)"/gi
+exports.isStyle = /style="/gi
 exports.isColorPattern = /stop-color/gi
 exports.isStopOpacity = /stop-opacity/gi
 exports.isClassPattern = /class=/g

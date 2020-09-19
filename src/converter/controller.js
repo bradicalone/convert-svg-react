@@ -12,8 +12,8 @@ async function read_File_CommonJS(path) {
     const fs = require('fs').promises
     let svg = await fs.readFile(path, 'utf8')
     let REACTsvg = new ConvertSvg(svg).findAndReplace()
-    server( REACTsvg )
 
+    server( REACTsvg.forCopy)
     // Retruns transformed svg also for terminal copying for testing.
     return REACTsvg
 }
