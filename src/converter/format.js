@@ -56,6 +56,7 @@ class Format {
         const leftFormat = this.leftFormat()
         const selectAllLines = /.+/gi
         let allArray = leftFormat.match(selectAllLines)
+
         let length = allArray.length
         let newString = ''
         let space = 0
@@ -64,7 +65,7 @@ class Format {
         for (let i = 0; i < length; i++) {
             let element = allArray[i]
             let beginnings = /<svg.+>|<style type="text\/css">|<[^\/].*>|^<[^\/].*[^>]$/i.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^\w.+\/?>$|^['"]?\..*|<\/image>/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^[\w",-].+\/?>$|^['"]?\..*|<\/image>/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
             let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element)
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {

@@ -126,7 +126,6 @@ class Convert {
 			}
 		}
 		return Format.indent(newSTring.join(''))
-
 	}
 
 
@@ -180,6 +179,7 @@ class Convert {
 			this.string = this.string.replace(isIDorVersion, '')
 		}
 		this.string = this.string.replace(/(<.*style="stopColor|<.*style="stopColor)(:.*)("\/>)/gmi, '$1$2;$3')
+	
 
 		/**
 		 * Format
