@@ -11,7 +11,7 @@ const openFile = (svg) => {
     const html = { "Content-Type": "text/html" }
     let error = svg.error
     let content_type;
-    let content;
+    let content; 
 
     if (error) {
         content_type = html
