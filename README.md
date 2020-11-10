@@ -10,15 +10,93 @@ Use with [npm](http://npmjs.com):
 npm install --save convert-svg-react
 ```
 
+
+## Usage Example Client (ReactJS):
+### &nbsp; From string easiest and fastest:
+&nbsp;* Used backticks `` to wrap the string else string has to be in one single line wraped with quotes
+
+```js
+
+import convert from 'convert-svg-react'
+
+function App(props) {
+    
+    const svg = convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
+    </svg>`);
+
+    return (
+        <>      
+            {/* Will display your converted code for copying as well as your svg */}
+            {svg}
+        </>
+    );
+}
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('app')
+);
+
+
+```
+
+## Usage Example Client (ReactJS):
+### &nbsp;From external file - path:
+&nbsp;* Returns a promise
+
+```js
+
+import svgFile from '../public/alarm-gradient.svg'
+import convert from 'convert-svg-react'
+
+function App(props) {
+    const [svg, setSvg] = useState('')
+
+    useEffect(()=> {
+        convert(svgFile).then(svg => setSvg(svg))
+    },[])
+
+    return (
+        <>      
+            {/* Will display your converted code for copying as well as your svg */}
+            {svg && svg}
+        </>
+    );
+}
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('app')
+);
+```
+
+### Renders as such:
+
+    * Your actual svg converted
+    * Converted svg / xml to be copied for React
+
+![Alt text](./client-example.png)
+
+
+
+### Live example supplying a svg string:
+
+![Alt text](./alarm.gif)
+
+### Live example from svg file:
+
+![Alt text](./svg-from-file.gif)
+
 ## Usage CommonJS (NodeJS)
-### &nbsp;&nbsp;&nbsp;&nbsp; From external file:
+### &nbsp; From external file:
 
 ```js
 const convert = require('convert-svg-react');
 convert('./path/tosvg/file.svg');
 ```
 
-### &nbsp;&nbsp;&nbsp;&nbsp; From string file:
+### &nbsp; From string file:
 
 ```js
 const convert = require('convert-svg-react');
@@ -73,72 +151,6 @@ convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-ri
 ## Actual file output CommonJS (NodeJS):
 
 ![Alt text](./node-example.png)
-
-## Usage Example Client (ReactJS):
-### &nbsp;&nbsp;&nbsp;&nbsp; From string easiest and fastest:
-&nbsp;&nbsp;&nbsp;&nbsp;* Used backticks `` to wrap the string else string has to be in one single line wraped with quotes
-
-```js
-
-import convert from 'convert-svg-react'
-
-function App(props) {
-    
-    const svg = convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
-    </svg>`);
-
-    return (
-        <>      
-            {/* Will display your converted code for copying as well as your svg */}
-            {svg}
-        </>
-    );
-}
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
-```
-
-## Usage Example Client (ReactJS):
-### &nbsp;&nbsp;&nbsp;&nbsp; From external file - path:
-&nbsp;&nbsp;&nbsp;&nbsp;* Returns a promise
-
-```js
-
-import svgFile from '../public/alarm-gradient.svg'
-import convert from 'convert-svg-react'
-
-function App(props) {
-    const [svg, setSvg] = useState('')
-
-    useEffect(()=> {
-        convert(svgFile).then(svg => setSvg(svg))
-    },[])
-
-    return (
-        <>      
-            {/* Will display your converted code for copying as well as your svg */}
-            {svg && svg}
-        </>
-    );
-}
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
-```
-
-### Renders as such:
-
-    * Your actual svg converted
-    * Converted svg / xml to be copied for React
-
-![Alt text](./client-example.png)
-
 
 
 
