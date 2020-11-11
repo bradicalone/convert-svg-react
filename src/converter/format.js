@@ -3,35 +3,62 @@
  * Class to create new indented stringed svg elements
  * 
  */
-
+let j = 0
 class Format {
     constructor(spaces = 4) {
         this.string = ''
         this.spaces = spaces
     }
-    newLine() {
-        if (typeof this.string !== 'string')
-            return {error: '<h1>Not a valid string</h1>'}
+    removeSpaces() {
+        return this.string.replace(/[ ]{3,}/igm, ' ')
+    }
+    trimLines(string) {
+        // Splits each line that is 180 characters or long at the very next space 
+        let regex = new RegExp('(.{180}[ ])(.*)', 'igm')
+        let newArr = []
 
-        const newLinePattern = /(.*\/?>)(<.*>?)/gim
-        const isFormated = newLinePattern.test(this.string)
+        // j < 50 incase extremely long and multiple lines 
+        if(string.match(regex) && j < 10) {
+            let strings = string.split('\n')
+            let i = strings.length
+            while(i--) {
+                // Each line that is too long splits and second line gets it's own
+                newArr.unshift(strings[i].replace(regex, '$1\n$2'))
+            }
+            let newString = newArr.join('\n')
+  
+            j++
+            return this.trimLines(newString)
+            
+        } else {
+            return string.replace(/^\s*\n/gm, '')
+        }
+    }
+    newLine(string) {
+        if (typeof string !== 'string')
+        return {error: '<h1>Not a valid string</h1>'}
+    
+        const newLinePattern = /^(.*\/?>)(<.*>?)$/igm
+        const isFormated = newLinePattern.test(string)
 
         if ( isFormated ) {
-            this.string = this.string.replace(newLinePattern, '$1\n$2')
-            this.newLine() // Updates this.newString until new line formating is done
-            return this.string
+            let newString = string.replace(newLinePattern, '$1\n$2')
+            return this.newLine(newString) // Updates this.newString until new line formating is done
         } else {
-            return this.string
+            return string
         }
     }
 
     elementOnOwnLines() {
-        const newLine = this.newLine()
-        if (!newLine) 
+        let string = this.removeSpaces()
+        const newLine = this.newLine(string)
+        const trimmed = this.trimLines(newLine)
+
+        if (!trimmed) 
             return {error: '<h1>Can\'t format new lines</h1>'}
 
         let openClosingPattern = /<\w.+[\s\S]+(<.+>)/gi
-        let openClosingElements = newLine.match(openClosingPattern)
+        let openClosingElements = trimmed.match(openClosingPattern)
 
         // If empty lines exist remove them
         let emptyLinesPattern = /^\s*[\r\n]/gm
@@ -69,25 +96,35 @@ class Format {
             let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element)
             // Indents open elements <g> or <g className="someclass" not closing..
             if ( beginnings ) {
-                if ( (/^<[^\/]+>$|^\w.+[^\/]>$/gi.test(allArray[i-1])) ) {  // Tests previous element is the same, if so add space
+                if ( (/<[^\/].+[^\/]>|^\w.+[^\/]>$|<[a-z]+>/gi.test(allArray[i-1])) ) {  // Tests previous element is the same, if so add space
                     space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                } else 
+                } else {
                     newString += element.replace(/^/g, i===0?'':'\n'+' '.repeat(space)) // First line, only adds new line (\n) if it's not the first line
+                }    
             }
             // **** TO DO indent strings under the <path element  ......   ^<.+([\w\d-,.]+)$  ***
             // Indents single open and closing elements <.../> or <..>...</..>
             else if ( onelines ) {
                 if ( /^<[^\/]+>$|^<style.+{?>?$|^[\w|-|\.].+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
-                space += spaces;
+                    space += spaces;
                     newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
-                } else 
+                } else {
                     newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                } 
             }
             // Doesn't indent closing elements </g>, </div>, }</style> etc etc..
             else if ( endings ) {
-                space -= spaces;
-                newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                let justLetters = element.replace(/[^a-zA-Z]/ig,'');
+                let regex = new RegExp(`^<${justLetters}`, 'gi');
+
+                if(regex.test(allArray[i-1])) {
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                    
+                } else {
+                    space -= spaces;
+                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                }
             } 
         }
         return newString

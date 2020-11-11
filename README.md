@@ -79,11 +79,6 @@ ReactDOM.render(
 ![Alt text](./client-example.png)
 
 
-
-### Live example supplying a svg string:
-
-![Alt text](./alarm.gif)
-
 ### Live example from svg file:
 
 ![Alt text](./svg-from-file.gif)

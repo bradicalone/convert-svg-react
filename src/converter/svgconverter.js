@@ -87,7 +87,6 @@ class Convert {
 				return this.string.replace(/<style.*[\s\S]*<\/style>/gi, toString)
 			}
 		} else return string
-		
 	}
 
 	addWidthAndHeight(string) {
@@ -104,7 +103,7 @@ class Convert {
 		const cssStringed = this.stringify_STYLE_ELEM(string)
 		let individual_lines = cssStringed.split('\n')
 		let i = individual_lines.length
-		let regEx = new RegExp(/(style=)"(.*:.*;)"/i)
+		let regEx = new RegExp(/(style=)"(.*:.*;)"/,'i')
 	
 		let newStyleObj = ''
 		let newSTring = []
@@ -125,6 +124,7 @@ class Convert {
 				newSTring.unshift(individual_lines[i] + '\n')
 			}
 		}
+	
 		return Format.indent(newSTring.join(''))
 	}
 
@@ -160,9 +160,9 @@ class Convert {
 					this.string = this.string.replace(/xlink:href/gi, 'href')
 			}
 		}
-
+		
 		this.string = this.string.replace(/style="enable-background.+"\s/g, '')
-
+		
 		if (isGradientStyle) {
 			this.string = this.string.replace(isColorPattern, 'stopColor')
 		}
@@ -179,13 +179,61 @@ class Convert {
 			this.string = this.string.replace(isIDorVersion, '')
 		}
 		this.string = this.string.replace(/(<.*style="stopColor|<.*style="stopColor)(:.*)("\/>)/gmi, '$1$2;$3')
+
+		// Remove </path> and add / to end of path =>   />
+		this.string = this.string.replace(/(<path.*)(>)\n?(<\/path>)/igm, '$1/$2')
+
+		function catenate(match, p1, p2, p3) {
+			return p1 + p2.toUpperCase() + p3
+		}
+		
+		let hasDashedAttributes = string => /\s\w+-\w+=/ig.test(string)
 	
+		// Checks if style attributes not concatinated exist ex: font-size => fontSize, stroke-width => strokeWidth  ...
+		const findAttributedDashes = (string) => {
+			let stringArr = []
+
+				if(hasDashedAttributes(string)) {
+					let individual_lines = string.split('\n')
+					let i = individual_lines.length
+					
+					while(i--) {
+						let attribute = individual_lines[i].match(/\s\w+-\w+=/ig)
+						if(attribute != null) {
+							let replaced = individual_lines[i].replace(/(\s\w*)-(\w)(.+=*)/i, catenate)
+			
+							stringArr.unshift(replaced)
+						} else {
+							stringArr.unshift(individual_lines[i] + '\n')
+						}
+					}
+					const updatedString = stringArr.join('')
+					
+					// Recursion till all attributes have been concatinated
+					hasDashedAttributes(updatedString) ? findAttributedDashes(updatedString) : this.string = updatedString
+					
+				} else {
+					this.string = string
+				}
+		}
+		findAttributedDashes(this.string)
+
+		
+		// Checks if inline style attributes not concatinated exist ex: style="font-size: 12px;"  =>  style="fontSize: 12px;" ..
+		const catenateStyleAttribute = (string) => {
+			let replaced = string.replace(/(\sstyle="\w+)-(\w)(.*)/ig, catenate)
+			this.string = replaced
+		}
+		catenateStyleAttribute(this.string)
+
+
 
 		/**
 		 * Format
 		 * See {@link Format}
 		 */
 		let clientCopy = this.inlineStyleJSX(this.string, Format)
+
 
 		return {renderedSVG: this.string, forCopy: clientCopy}
 	}
