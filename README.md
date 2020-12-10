@@ -1,6 +1,8 @@
 # SVG Converter
 
-`convert-svg-react` was started because I ran into a wall when trying to use inline SVG (XML) with ReactJS. React would complain everywhere, almost every SVG attribute had to be changed, and there is a lot of them! Most SVG files can be lengthy and to go through all the code replace everything by hand can take a while. So this does it for you in so many different ways. You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. Will output new svg xml markup to be copied into your React file. This works with CommonJS / NodeJS or client side with ReactJS. 
+`convert-svg-react` was started because I wanted to use inline SVG as XML with ReactJS, but when ReactJS complains of all the attributes that need to be changed like `className` and inline styling it gets difficult to remember everything that needs to be changed. This will do it all for you.
+
+- You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. Will output new svg xml markup to be copied into your React project. This works with CommonJS / NodeJS or client side with ReactJS.
 
 ## Installation <convert-svg-react>
 
@@ -15,14 +17,12 @@ npm install --save convert-svg-react
 ### &nbsp; From string easiest and fastest:
 &nbsp;* Used backticks `` to wrap the string else string has to be in one single line wraped with quotes
 
-```js
-
+```js   
 import convert from 'convert-svg-react'
 
 function App(props) {
     
-    const svg = convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
+    const svg = convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
     </svg>`);
 
     return (
@@ -37,13 +37,27 @@ ReactDOM.render(
     <App />,
     document.getElementById('app')
 );
-
-
 ```
 
 ## Usage Example Client (ReactJS):
 ### &nbsp;From external file - path:
 &nbsp;* Returns a promise
+
+- FIRST Make sure to have a file loader like [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader) in your ReactJS project, and set up your limit to a large file in `webpack.config.js` :
+
+```js
+    {
+        test: /\.(png|jpg|gif|svg)$/i,
+        use: [
+            {
+                loader: 'url-loader',
+                options: {
+                    limit: 100000,
+                },
+            },
+        ]
+    }
+```
 
 ```js
 
@@ -54,6 +68,7 @@ function App(props) {
     const [svg, setSvg] = useState('')
 
     useEffect(()=> {
+        // Returns a promise
         convert(svgFile).then(svg => setSvg(svg))
     },[])
 
@@ -93,7 +108,7 @@ convert('./path/tosvg/file.svg');
 
 ### &nbsp; From string file:
 
-```js
+```javascript
 const convert = require('convert-svg-react');
 convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>

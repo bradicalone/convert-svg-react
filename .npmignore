@@ -1,6 +1,22 @@
-/dist
-/doc
-*.svg
 /src
 tests
 .vscode
+/tests
+# dependencies
+/node_modules
+jsdoc.json
+.babelrc
+webpack.config.js
+# misc
+.DS_Store
+svg-from-file.gif
+
+
+npm-debug.log*
+
+*.svg
+# npm debug log
+*.log
+
+dist
+docs

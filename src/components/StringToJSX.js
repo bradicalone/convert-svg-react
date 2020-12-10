@@ -13,17 +13,25 @@ let getColsWidth = nodeArray => {
     return {lineLength: maxLineLength, lineNumber}
 }
 
-let getNodes = str => {
+let getNodes = (...arr) => {
+    const [string, type ] = arr
+    let nodeArray;
+    if(type === 'fromFile') {
+        nodeArray = new DOMParser().parseFromString(string.renderedSVG, "application/xml").childNodes
+    } else {
+        nodeArray =  new DOMParser().parseFromString(string.renderedSVG, "text/html").childNodes[2].childNodes[1].childNodes
+    }
+    console.log(nodeArray)
     return {
-        nodeArray: new DOMParser().parseFromString(str.renderedSVG, "application/xml").childNodes,
-        string: str.forCopy.split('\n')
+        nodeArray,
+        string: string.forCopy.split('\n')
     }
 }
 
 let createJSX = (nodeObj) => {
     let svgString = nodeObj.string
     let nodeArray = nodeObj.nodeArray
-
+    
     return [
         React.createElement(
             'div',
@@ -93,6 +101,6 @@ let createJSX = (nodeObj) => {
      
 }
 
-export const StringToJSX = props => {
-    return createJSX(getNodes(props));
+export const StringToJSX = (...props) => {
+    return createJSX(getNodes(...props));
 };

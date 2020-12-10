@@ -35,32 +35,36 @@ function from_string_CommonJS(string) {
 /**
  * For browsers
  * @param {string} string - string
- * @returns {String}
+ * @returns {Object[]}
  */
 
 function from_string_ES2016(string) {
     const { StringToJSX }  = require('../components/StringToJSX')
 
     let REACTsvg = new ConvertSvg(string).findAndReplace()
-    return StringToJSX( REACTsvg )
+    return StringToJSX( REACTsvg, 'fromString' )
 }
 
  /**
  * For browsers only
  * @param {string} path - path to svg file or file itself
- * @returns {Promise}
+ * @returns {Promise<Array>}
  */
 
 async function read_File_ES2016(path) {
-    
     const { StringToJSX }  = require('../components/StringToJSX')
 
     // Will make VueJS svg resuable component from here
-    let res = await fetch(path)
-    let svg = await res.text()
+    try{
+        let res = await fetch(path)
+        let svg = await res.text()
 
-    let REACTsvg = new ConvertSvg(svg).findAndReplace()
-    return StringToJSX( REACTsvg )
+        let REACTsvg = new ConvertSvg(svg).findAndReplace()
+        return StringToJSX( REACTsvg, 'fromFile' )
+
+    }catch(e) {
+        return e
+    }  
 }
 
 module.exports = {read_File_ES2016, from_string_ES2016, read_File_CommonJS, from_string_CommonJS}

@@ -224,16 +224,12 @@ class Convert {
 			let replaced = string.replace(/(\sstyle="\w+)-(\w)(.*)/ig, catenate)
 			this.string = replaced
 		}
-		catenateStyleAttribute(this.string)
-
-
 
 		/**
 		 * Format
 		 * See {@link Format}
 		 */
 		let clientCopy = this.inlineStyleJSX(this.string, Format)
-
 
 		return {renderedSVG: this.string, forCopy: clientCopy}
 	}
