@@ -15,13 +15,17 @@ let getColsWidth = nodeArray => {
 
 let getNodes = (...arr) => {
     const [string, type ] = arr
+ 
     let nodeArray;
     if(type === 'fromFile') {
         nodeArray = new DOMParser().parseFromString(string.renderedSVG, "application/xml").childNodes
     } else {
-        nodeArray =  new DOMParser().parseFromString(string.renderedSVG, "text/html").childNodes[2].childNodes[1].childNodes
+        const childNodes = new DOMParser().parseFromString(string.renderedSVG, "text/html").childNodes
+        // Removes any other childnode that isn't html 
+        let html = Array.from(childNodes.values()).filter((child) => child.nodeName === 'HTML')[0]
+        nodeArray = html.childNodes[1].childNodes
     }
-    console.log(nodeArray)
+
     return {
         nodeArray,
         string: string.forCopy.split('\n')
