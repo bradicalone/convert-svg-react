@@ -1,4 +1,3 @@
-const http = require('http');
 const ConvertSvg = require('./svgconverter');
 const server = require('./server');
 

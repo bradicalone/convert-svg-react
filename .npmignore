@@ -1,16 +1,17 @@
 /src
-tests
-.vscode
 /tests
+.vscode
 # dependencies
 /node_modules
 jsdoc.json
 .babelrc
 webpack.config.js
+
 # misc
 .DS_Store
 svg-from-file.gif
-
+node-example.png
+client-example.png
 
 npm-debug.log*
 
@@ -18,5 +19,5 @@ npm-debug.log*
 # npm debug log
 *.log
 
-dist
-docs
+/dist
+/docs

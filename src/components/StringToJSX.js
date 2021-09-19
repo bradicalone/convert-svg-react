@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import CreateSVG from './CreateSVG';
 import Button from './Button';
 

@@ -20,6 +20,8 @@ let CreateSVG = (nodeArray) => {
                     // When fromString gets ran classname is not concatinated
                 }  else if(attribute.name === 'classname'){
                     attributeObj[attribute.name.replace(/n/, 'N')] = attribute.nodeValue;
+                }  else if(attribute.name === 'fillrule'){
+                    attributeObj[attribute.name.replace(/r/, 'R')] = attribute.nodeValue;
                 } else {
                     attributeObj[attribute.name] = attribute.nodeValue;
                     // Adds inline style to svg 

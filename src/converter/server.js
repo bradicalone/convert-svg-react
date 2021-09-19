@@ -27,8 +27,8 @@ const openFile = (svg) => {
     }
 
     const server = http.createServer(requestListener);
-    server.listen(8000);
-    console.log('Open browswer http://localhost:8000/')
+    server.listen(8002);
+    console.log('Open browswer http://localhost:8002/')
 }
 
 module.exports = openFile

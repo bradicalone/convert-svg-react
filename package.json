@@ -1,6 +1,6 @@
 {
   "name": "convert-svg-react",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Converts SVG XML code to be used as ReactJS component.",
   "main": "lib/converter/index.js",
   "repository": {
@@ -16,10 +16,10 @@
     "svg"
   ],
   "scripts": {
-    "compile": "npx babel src --out-dir lib",
+    "compile": "npx babel src --watch --out-dir lib",
     "doc": "jsdoc -c jsdoc.json",
     "build:dev": "webpack --watch",
-    "start:dev": "webpack-dev-server --mode development --open --hot",
+    "start:dev": "webpack serve --mode development --open --hot",
     "dev": "(npm run build:dev & npm run start:dev) || (start npm run build:dev && start npm run start:dev)",
     "test": "jest"
   },
@@ -45,6 +45,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.0.0",
     "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^5.3.2",
     "jest": "^26.6.1",
     "jsdoc": "^3.6.4",
     "mini-css-extract-plugin": "^0.9.0",
@@ -53,9 +54,9 @@
     "sass": "^1.28.0",
     "sass-loader": "^10.0.4",
     "style-loader": "^1.2.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   },
   "browser": {
     "fs": false,

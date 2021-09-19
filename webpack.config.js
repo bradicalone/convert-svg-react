@@ -1,13 +1,15 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => {
     const isProduction = env === 'production';
-    return  {
+    return {
         entry: ['./src/index.js'],
         output: {
             path: path.join(__dirname, '/dist'),
+            filename: 'index_bundle.js',
         },
-        module: { 
+        module: {
             rules: [
                 {
                     test: /\.js$/,
@@ -23,9 +25,15 @@ module.exports = (env) => {
             ],
         },
         mode: 'development',
-        devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+        devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
         devServer: {
+            port: 8085,
             historyApiFallback: true,
-        }
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: './src/index.html',
+            })
+        ]
     }
 }

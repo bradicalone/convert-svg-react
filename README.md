@@ -1,6 +1,10 @@
 # SVG Converter
 
-`convert-svg-react` was started because I wanted to use inline SVG as XML with ReactJS, but when ReactJS complains of all the attributes that need to be changed like `className` and inline styling it gets difficult to remember everything that needs to be changed. This will do it all for you.
+`convert-svg-react`:
+Javascript module that allows you to use inline svg's in your ReactJS projects. Converts all the attributes and elements to proper JSX.
+
+#### WHY?
+Was started because I wanted to use inline SVG as XML with ReactJS, but when ReactJS complains of all the attributes that need to be changed like `className` and inline styling it gets difficult to remember everything that needs to be changed. This will do it all for you.
 
 - You can take your `Adobe Ai` svg file and paste it, or even link your .svg file. Will output new svg xml markup to be copied into your React project. This works with CommonJS / NodeJS or client side with ReactJS.
 
@@ -18,17 +22,22 @@ npm install --save convert-svg-react
 &nbsp;* Used backticks `` to wrap the string else string has to be in one single line wraped with quotes
 
 ```js   
-import convert from 'convert-svg-react'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Convert from 'convert-svg-react'
+
+
+const svgString = `
+<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> 
+<path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 
+0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
+</svg>
+`
 
 function App(props) {
-    
-    const svg = convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
-    </svg>`);
-
     return (
-        <>      
-            {/* Will display your converted code for copying as well as your svg */}
-            {svg}
+        <>
+            <Convert string={svgString}/>
         </>
     );
 }
@@ -117,9 +126,9 @@ convert(`<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-ri
 
 ### Converted: 
 * After the file path arguement is given and everything goes well you will receieve output in the terminal:
- `Open browswer http://localhost:8000/` 
+ `Open browswer http://localhost:8002/` 
 
-  * Open browser ` http://localhost:8000/ `
+  * Open browser ` http://localhost:8002/ `
   * Properly indented
   * Attributes changed for JSX
   * Elements on their own lines 

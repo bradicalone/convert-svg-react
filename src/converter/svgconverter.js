@@ -51,6 +51,7 @@ class Convert {
 		//        }
 		// 	  </style>
 		//  Or leave it, stringify it and use it within React
+		
 		if (stylePattern.test(string)) {
 			if (this.removeStyleElement) {
 				this.string = this.string.replace(stylePattern, '')
@@ -198,9 +199,9 @@ class Convert {
 					let i = individual_lines.length
 					
 					while(i--) {
-						let attribute = individual_lines[i].match(/\s\w+-\w+=/ig)
+						let attribute = individual_lines[i].match(/\s(?:\w|=")+-\w+(=|:)/ig)
 						if(attribute != null) {
-							let replaced = individual_lines[i].replace(/(\s\w*)-(\w)(.+=*)/i, catenate)
+							let replaced = individual_lines[i].replace(/(\s(?:\w|=")+)-(\w)(\w+(:|=))/i, catenate)
 			
 							stringArr.unshift(replaced)
 						} else {

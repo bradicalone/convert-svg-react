@@ -18,3 +18,5 @@ npm-debug.log*
 dist
 lib
 docs
+.vscode
+
