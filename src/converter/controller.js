@@ -52,7 +52,7 @@ function from_string_ES2016(string) {
 
 async function read_File_ES2016(path) {
     const { StringToJSX }  = require('../components/StringToJSX')
-
+ 
     // Will make VueJS svg resuable component from here
     try{
         let res = await fetch(path)

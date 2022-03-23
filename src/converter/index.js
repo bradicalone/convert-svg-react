@@ -14,7 +14,7 @@ module.exports = (path) => {
     const file = typeof path === 'string' ? path : path.string
 
     if (process.browser) {
-        let isImgPath = file.match(/data:image\/svg\+xml/g)
+        const isImgPath = file.match(/data:image\/svg\+xml/g)
 
         if(isImgPath) {
             // Client supplies svg img file
@@ -24,7 +24,7 @@ module.exports = (path) => {
             return from_string_ES2016(file)
         }
     } else {
-        let isSVGstring = file.match(/<\/svg>/g)
+        const isSVGstring = file.match(/<\/svg>/g)
 
         // If path is svg string returns true
         if(isSVGstring) {

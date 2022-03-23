@@ -9,9 +9,12 @@ class Format {
         this.string = ''
         this.spaces = spaces
     }
+
     removeSpaces() {
         return this.string.replace(/[ ]{3,}/igm, ' ')
     }
+
+    /* *** Not being used, refactoring *** */
     trimLines(string) {
         // Splits each line that is 180 characters or long at the very next space 
         let regex = new RegExp('(.{180}[ ])(.*)', 'igm')
@@ -34,98 +37,90 @@ class Format {
             return string.replace(/^\s*\n/gm, '')
         }
     }
-    newLine(string) {
+
+    newLine() {
+        const string = this.removeSpaces()
         if (typeof string !== 'string')
-        return {error: '<h1>Not a valid string</h1>'}
-    
-        const newLinePattern = /^(.*\/?>)(<.*>?)$/igm
-        const isFormated = newLinePattern.test(string)
+            return {error: '<h1>Not a valid string</h1>'}
 
-        if ( isFormated ) {
-            let newString = string.replace(newLinePattern, '$1\n$2')
-            return this.newLine(newString) // Updates this.newString until new line formating is done
-        } else {
-            return string
-        }
-    }
-
-    elementOnOwnLines() {
-        let string = this.removeSpaces()
-        const newLine = this.newLine(string)
-        const trimmed = this.trimLines(newLine)
-
-        if (!trimmed) 
-            return {error: '<h1>Can\'t format new lines</h1>'}
-
-        let openClosingPattern = /<\w.+[\s\S]+(<.+>)/gi
-        let openClosingElements = trimmed.match(openClosingPattern)
-
-        // If empty lines exist remove them
-        let emptyLinesPattern = /^\s*[\r\n]/gm
-        return openClosingElements[0].replace(emptyLinesPattern, '')
+        return string.replace(/^\s+|\s+$/gm, '').match(/<.[\s\S]*?>(?=[^a-z])|(<\/svg>)|(.+?}")/gm).join('\n')
     }
 
     leftFormat() {
-        let elementOnOwnLines = this.elementOnOwnLines();
+        const elementOnOwnLines = this.newLine();
+        // console.log('elementOnOwnLines:', elementOnOwnLines)
 
         if (!elementOnOwnLines) {
             console.log('Can\'t format Elements on Own Lines')
             return {error: '<h1>Can\'t format Elements on Own Lines</h1>'}
         }
         // Remove spaces from both sides
-        let removeTabsPattern = /^\s*|\s*$/gm
-        let formatLeft =  elementOnOwnLines.replace(removeTabsPattern, '')
+        const removeTabsPattern = /^\s*|\s*$/gm
+        const formatLeft =  elementOnOwnLines.replace(removeTabsPattern, '')
         return formatLeft
     }
 
     indent(string, styleElement){
+
         this.string = string
         const leftFormat = this.leftFormat()
-        const selectAllLines = /.+/gi
+        const selectAllLines = /.+/ig
         let allArray = leftFormat.match(selectAllLines)
-
+        let prevBeginnings = ''
         let length = allArray.length
         let newString = ''
         let space = 0
         let spaces = this.spaces
-       
-        for (let i = 0; i < length; i++) {
-            let element = allArray[i]
-            let beginnings = /<svg.+>|<style type="text\/css">|<[^\/].*>|^<[^\/].*[^>]$/i.test(element); // <...> or <.....
-            let onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^[\w",-].+\/?>$|^['"]?\..*|<\/image>/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
-            let endings = /(?<!.+)<\/.*>|^}?<\/style>$/gi.test(element)
-            // Indents open elements <g> or <g className="someclass" not closing..
-            if ( beginnings ) {
-                if ( (/<[^\/].+[^\/]>|^\w.+[^\/]>$|<[a-z]+>/gi.test(allArray[i-1])) ) {  // Tests previous element is the same, if so add space
-                    space += spaces;
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                } else {
-                    newString += element.replace(/^/g, i===0?'':'\n'+' '.repeat(space)) // First line, only adds new line (\n) if it's not the first line
-                }    
-            }
-            // **** TO DO indent strings under the <path element  ......   ^<.+([\w\d-,.]+)$  ***
-            // Indents single open and closing elements <.../> or <..>...</..>
-            else if ( onelines ) {
-                if ( /^<[^\/]+>$|^<style.+{?>?$|^[\w|-|\.].+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
-                    space += spaces;
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
-                } else {
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
+
+        try {
+            for (let i = 0; i < length; i++) {
+                const element = allArray[i]
+                const beginnings = /<svg.+>|<style type="text\/css">|<[^\/].*>|^<[^\/].*[^>]$/i.test(element); // <...> or <.....
+                const onelines = /<.*>.*<\/.*>|^<\w.*\/>$|^(\w|-|\.).+[^>]$|^[\w",-].+\/?>$|^['"]?\..*|<\/image>/gi.test(element) //  <./>...<./> or <..../>  or .... or .../>  or ...> or '.photo-st0{fill:#061E2D;}'+
+                const endings = /<\/.*>|^}?<\/style>$/gi.test(element)
+                // Indents open elements <g> or <g className="someclass" not closing..
+                if ( beginnings ) {
+                    if ( (/<[^\/].+[^\/]>|^\w.+[^\/]>$|<[a-z]+>/gi.test(allArray[i-1])) ) {  // Tests previous element is the same, if so add space
+                        space += spaces;
+                        prevBeginnings = element
+                        newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                    } else {
+                        prevBeginnings = element
+                        newString += element.replace(/^/g, i===0?'':'\n'+' '.repeat(space)) // First line, only adds new line (\n) if it's not the first line
+                    }    
+                }
+                
+                // Indents single open and closing elements <.../> or <..>...</..>
+                else if ( onelines ) {
+                    if ( /^<[^\/]+>$|^<style.+{?>?$|^[\w|-|\.].+[^\/]>$/gi.test(allArray[i-1]) ) {  // tests if previouos element is <...> or <style...{ or ...> 
+                        space += spaces;
+                        newString += element.replace(/^/g, '\n'+' '.repeat(space)) // Indents if previous line is different
+                    } else {
+                        // const extraSpace = space + 2  add more spaces if needed
+                        const extraSpace = space + 1
+                        // single lines ... or ...>
+                        newString += element.replace(/^/g, '\n'+' '.repeat(extraSpace))
+                    } 
+                }
+
+                // Doesn't indent closing elements </g>, </div>, }</style> etc etc..
+                else if ( endings ) {
+                    const justLetters = element.replace(/[^a-zA-Z]/ig,'');
+                    const regex = new RegExp(`^<${justLetters}`, 'gi');
+
+                    /* If indented tag is same ending tag */
+                    if(regex.test(prevBeginnings) && justLetters != 'style') {
+                        newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                        
+                    } else {
+                        space -= spaces;
+                        newString += element.replace(/^/g, '\n'+' '.repeat(space))
+                    }
                 } 
             }
-            // Doesn't indent closing elements </g>, </div>, }</style> etc etc..
-            else if ( endings ) {
-                let justLetters = element.replace(/[^a-zA-Z]/ig,'');
-                let regex = new RegExp(`^<${justLetters}`, 'gi');
-
-                if(regex.test(allArray[i-1])) {
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                    
-                } else {
-                    space -= spaces;
-                    newString += element.replace(/^/g, '\n'+' '.repeat(space))
-                }
-            } 
+        } catch(e) {
+            console.log(e)
+            return `<span>${e}</span>`
         }
         return newString
     }

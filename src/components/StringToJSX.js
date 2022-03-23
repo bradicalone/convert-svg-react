@@ -1,8 +1,8 @@
 import React from 'react';
-import CreateSVG from './CreateSVG';
+import CreateSVG from './createSVG/CreateSVG';
 import Button from './Button';
 
-let getColsWidth = nodeArray => {
+const getColsWidth = nodeArray => {
     let maxLineLength = nodeArray[0].length
     let lineNumber = []
     nodeArray.forEach((line, i)=> {
@@ -12,17 +12,18 @@ let getColsWidth = nodeArray => {
     return {lineLength: maxLineLength, lineNumber}
 }
 
-let getNodes = (...arr) => {
+const getNodes = (...arr) => {
     const [string, type ] = arr
  
     let nodeArray;
     if(type === 'fromFile') {
-        nodeArray = new DOMParser().parseFromString(string.renderedSVG, "application/xml").childNodes
+        nodeArray = new DOMParser().parseFromString(string.renderedSVG, "text/html").querySelectorAll('svg')
+
     } else {
         const childNodes = new DOMParser().parseFromString(string.renderedSVG, "text/html").childNodes
         // Removes any other childnode that isn't html 
-        let html = Array.from(childNodes.values()).filter((child) => child.nodeName === 'HTML')[0]
-        nodeArray = html.childNodes[1].childNodes
+        const html = Array.from(childNodes.values()).filter((child) => child.nodeName === 'HTML')[0]
+        nodeArray = html.querySelectorAll('svg')
     }
 
     return {
@@ -31,7 +32,7 @@ let getNodes = (...arr) => {
     }
 }
 
-let createJSX = (nodeObj) => {
+const createJSX = (nodeObj) => {
     let svgString = nodeObj.string
     let nodeArray = nodeObj.nodeArray
     
@@ -53,10 +54,11 @@ let createJSX = (nodeObj) => {
                     key: 'container',
                     style: {
                         display: 'flex',
+                        alignItems: 'baseline',
                         overflow: 'scroll',
                         background: 'rgb(45 45 45)',
                         width: 'auto',
-                        height: '100%',
+                        height: '80vh',
                         resize: 'none'
                     }
                 },
@@ -69,7 +71,7 @@ let createJSX = (nodeObj) => {
                         style : {
                             className: 'numbered',
                             textAlign: 'right',
-                            minWidth: '1rem',
+                            minWidth: 'fit-content',
                             padding: '10px 5px 0 5px',
                             border: 'none',
                             background: 'rgb(45 45 45)',

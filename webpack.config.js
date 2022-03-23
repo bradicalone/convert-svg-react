@@ -27,8 +27,8 @@ module.exports = (env) => {
         mode: 'development',
         devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
         devServer: {
-            port: 8085,
             historyApiFallback: true,
+            port: 9001
         },
         plugins: [
             new HtmlWebpackPlugin({

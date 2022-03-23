@@ -4,12 +4,18 @@ const {
 	stylePattern,
 	isColan,
 	isSemiColan,
-	isStyle, 
-	isColorPattern, 
-	isStopOpacity, isClassPattern, isxmlPattern, cssObjects, isTitle, enabledBackground, isIDorVersion
+	isStyle,
+	isColorPattern,
+	isStopOpacity, 
+	isClassPattern, 
+	isxmlPattern, 
+	cssObjects, 
+	isTitle, 
+	enabledBackground, 
+	isVersion, 
+	isXML, 
+	isAdobeComment
 } = require("./constants");
-
-let test_string = ``
 
 /**
  * Class to create new stringed svg element
@@ -22,12 +28,11 @@ class Convert {
 	 *
 	 */
 	constructor(string) {
-		
 		this.string = string
-		this.svgCSS = ''		
+		this.svgCSS = ''
 		this.removeStyleElement = false
 	}
-	
+
 	/**
 	 * @property {Function} checkString Reads file from path given by client
 	 * @returns {object}
@@ -36,7 +41,7 @@ class Convert {
 		if (typeof this.string !== 'string') {
 			console.log('not a string')
 
-			return {error: `<h1>File path or file is not of string path.</h1>`}
+			return { error: `<h1>File path or file is not of string path.</h1>` }
 		} else return string
 	}
 
@@ -51,7 +56,7 @@ class Convert {
 		//        }
 		// 	  </style>
 		//  Or leave it, stringify it and use it within React
-		
+
 		if (stylePattern.test(string)) {
 			if (this.removeStyleElement) {
 				this.string = this.string.replace(stylePattern, '')
@@ -67,7 +72,7 @@ class Convert {
 					const element = CSSobjects[i];
 
 					// If only one css object exist
-					if ( length === 1 )  {
+					if (length === 1) {
 						toString += element.replace(/(\..*;})/i, '<style type="text/css">{\n"$1"\n}</style>');
 						break;
 					}
@@ -77,9 +82,9 @@ class Convert {
 						toString += element.replace(/(\..*;})/i, '<style type="text/css">{\n"$1"+\n');
 					}
 					// Replaces last line
-					else if (i === length - 1 ) {
+					else if (i === length - 1) {
 						toString += element.replace(/(\..*;})/i, '"$1"\n}</style>');
-					} 
+					}
 					// Replaces every other line
 					else {
 						toString += element.replace(/(\..*;})/i, ' "$1"+\n');
@@ -90,9 +95,6 @@ class Convert {
 		} else return string
 	}
 
-	addWidthAndHeight(string) {
-
-	}
 	/**
 	 * 
 	 * @property {Function} inlineStyleJSX - Looks for all xml attributes that need to be replaced 
@@ -102,21 +104,23 @@ class Convert {
 	 */
 	inlineStyleJSX(string, Format) {
 		const cssStringed = this.stringify_STYLE_ELEM(string)
+
 		let individual_lines = cssStringed.split('\n')
+
 		let i = individual_lines.length
-		let regEx = new RegExp(/(style=)"(.*:.*;)"/,'i')
-	
+		let regEx = new RegExp(/(style=)"(.*:.*;)"/, 'i')
+
 		let newStyleObj = ''
 		let newSTring = []
 		//Goes through each line
-		while(i--) {
+		while (i--) {
 			// Checks for only lines that contain style attributes
-			if(regEx.test(individual_lines[i])) {
+			if (regEx.test(individual_lines[i])) {
 				let split_style_obj = individual_lines[i].match(regEx)[2].split(';')
-	
-					// Adds quotes to the values:   [ 'display:block', 'overflow:hidden', 'height: 100', '' ]  to  display:"block",overflow:"hidden",height:"100"
-					split_style_obj.forEach(string => newStyleObj += string.replace(/(.*:)(\s?[#\w\d\.]+)/, '$1"$2",') )
-		
+
+				// Adds quotes to the values:   [ 'display:block', 'overflow:hidden', 'height: 100', '' ]  to  display:"block",overflow:"hidden",height:"100"
+				split_style_obj.forEach(string => newStyleObj += string.replace(/(.*:)(\s?[#\w\d\.]+)/, '$1"$2",'))
+
 				// replaces style="display:block;overflow:hidden;height:100;"  to  style={{display:"block",overflow:"hidden",height:"100"}}
 				let x = individual_lines[i].replace(/(style=)"(.*:.*;)"/i, `$1{{${newStyleObj}}}`)
 				newSTring.unshift(x + '\n')
@@ -125,8 +129,9 @@ class Convert {
 				newSTring.unshift(individual_lines[i] + '\n')
 			}
 		}
-	
+
 		return Format.indent(newSTring.join(''))
+
 	}
 
 
@@ -139,19 +144,9 @@ class Convert {
 		let string = this.string
 		this.checkString(string)
 
-		// G flag problem created. 
-		const hasEnabledBackground = enabledBackground.test(string)
-		const isGradientStyle = isColorPattern.test(string)
-		const hasClass = isClassPattern.test(string)
-		const hasTitle = isTitle.test(string)
-		const hasXML = isxmlPattern.test(string)
-		const hasStopOpacity = isStopOpacity.test(string)
-		
-		const hasIDorVersion = isIDorVersion.test(string)
-		
 		if (!typeof string) return `<div>Must be a valid string</div>`
-		
-		if (hasXML) {
+
+		if (isxmlPattern.test(string)) {
 			switch (true) {
 				case /xmlns:xlink/gi.test(string):
 					this.string = this.string.replace(/xmlns:xlink=".+\/xlink"\s/gi, '')
@@ -161,24 +156,27 @@ class Convert {
 					this.string = this.string.replace(/xlink:href/gi, 'href')
 			}
 		}
-		
-		this.string = this.string.replace(/style="enable-background.+"\s/g, '')
-		
-		if (isGradientStyle) {
-			this.string = this.string.replace(isColorPattern, 'stopColor')
+
+		/* remove typical attributes and unnedded extra left over adobe file additions */
+		switch (true) {
+			case enabledBackground.test(string):
+				this.string = this.string.replace(/style="enable-background.+"\s/g, '')
+			case isColorPattern.test(string):
+				this.string = this.string.replace(isColorPattern, 'stopColor')
+			case isStopOpacity.test(string):
+				this.string = this.string.replace(isStopOpacity, 'stopOpacity')
+			case isXML.test(string):
+				this.string = this.string.replace(isXML, '')
+			case isClassPattern.test(string):
+				this.string = this.string.replace(isClassPattern, 'className=')
+			case isTitle.test(string):
+				this.string = this.string.replace(/<title>.*<\/title>/, '')
+			case isVersion.test(string):
+				this.string = this.string.replace(isVersion, '')
+			case isAdobeComment.test(string):
+				this.string = this.string.replace(isAdobeComment, '')
 		}
-		if (hasStopOpacity) {
-			this.string = this.string.replace(isStopOpacity, 'stopOpacity')
-		}
-		if (hasClass) {
-			this.string = this.string.replace(isClassPattern, 'className=')
-		}
-		if (hasTitle) {
-			this.string = this.string.replace(/<title>.*<\/title>/, '')
-		}
-		if(hasIDorVersion) {
-			this.string = this.string.replace(isIDorVersion, '')
-		}
+
 		this.string = this.string.replace(/(<.*style="stopColor|<.*style="stopColor)(:.*)("\/>)/gmi, '$1$2;$3')
 
 		// Remove </path> and add / to end of path =>   />
@@ -187,39 +185,38 @@ class Convert {
 		function catenate(match, p1, p2, p3) {
 			return p1 + p2.toUpperCase() + p3
 		}
-		
+
 		let hasDashedAttributes = string => /\s\w+-\w+=/ig.test(string)
-	
+
 		// Checks if style attributes not concatinated exist ex: font-size => fontSize, stroke-width => strokeWidth  ...
 		const findAttributedDashes = (string) => {
 			let stringArr = []
 
-				if(hasDashedAttributes(string)) {
-					let individual_lines = string.split('\n')
-					let i = individual_lines.length
-					
-					while(i--) {
-						let attribute = individual_lines[i].match(/\s(?:\w|=")+-\w+(=|:)/ig)
-						if(attribute != null) {
-							let replaced = individual_lines[i].replace(/(\s(?:\w|=")+)-(\w)(\w+(:|=))/i, catenate)
-			
-							stringArr.unshift(replaced)
-						} else {
-							stringArr.unshift(individual_lines[i] + '\n')
-						}
+			if (hasDashedAttributes(string)) {
+				let individual_lines = string.split('\n')
+				let i = individual_lines.length
+
+				while (i--) {
+					let attribute = individual_lines[i].match(/\s(?:\w|=")+-\w+(=|:)/ig)
+					if (attribute != null) {
+						let replaced = individual_lines[i].replace(/(\s(?:\w|=")+)-(\w)(\w+(:|=))/i, catenate)
+
+						stringArr.unshift(replaced)
+					} else {
+						stringArr.unshift(individual_lines[i] + '\n')
 					}
-					const updatedString = stringArr.join('')
-					
-					// Recursion till all attributes have been concatinated
-					hasDashedAttributes(updatedString) ? findAttributedDashes(updatedString) : this.string = updatedString
-					
-				} else {
-					this.string = string
 				}
+				const updatedString = stringArr.join('')
+
+				// Recursion till all attributes have been concatinated
+				hasDashedAttributes(updatedString) ? findAttributedDashes(updatedString) : this.string = updatedString
+
+			} else {
+				this.string = string
+			}
 		}
 		findAttributedDashes(this.string)
 
-		
 		// Checks if inline style attributes not concatinated exist ex: style="font-size: 12px;"  =>  style="fontSize: 12px;" ..
 		const catenateStyleAttribute = (string) => {
 			let replaced = string.replace(/(\sstyle="\w+)-(\w)(.*)/ig, catenate)
@@ -232,7 +229,7 @@ class Convert {
 		 */
 		let clientCopy = this.inlineStyleJSX(this.string, Format)
 
-		return {renderedSVG: this.string, forCopy: clientCopy}
+		return { renderedSVG: this.string, forCopy: clientCopy }
 	}
 }
 

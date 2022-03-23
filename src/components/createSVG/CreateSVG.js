@@ -1,6 +1,11 @@
 import React from 'react';
+import { updateStyles } from './helpers';
+
+
+
 
 let CreateSVG = (nodeArray) => {
+
     return Array.prototype.map.call(nodeArray, (node, i) => {
         let attributeObj = {};
         
@@ -8,13 +13,10 @@ let CreateSVG = (nodeArray) => {
 
         if (attributes) {
             Array.from(attributes).forEach(attribute => {
+
                 if (attribute.name === "style") {
-                    let styleAttributes = attribute.nodeValue.split(";");
-                    let styleObj = {};
-                    styleAttributes.forEach(attribute => {
-                        let [key, value] = attribute.split(":");
-                        styleObj[key] = value;
-                    });
+                    const styleObj = updateStyles(attribute.nodeValue)
+                    
                     attributeObj[attribute.name] = styleObj;
 
                     // When fromString gets ran classname is not concatinated
@@ -22,6 +24,18 @@ let CreateSVG = (nodeArray) => {
                     attributeObj[attribute.name.replace(/n/, 'N')] = attribute.nodeValue;
                 }  else if(attribute.name === 'fillrule'){
                     attributeObj[attribute.name.replace(/r/, 'R')] = attribute.nodeValue;
+                }  else if(attribute.name === 'strokelinecap'){
+                    attributeObj['strokeLinecap'] = attribute.nodeValue;
+                }  else if(attribute.name === 'strokemiterlimit'){
+                    attributeObj['strokeMiterlimit'] = attribute.nodeValue;
+                }  else if(attribute.name === 'strokelinejoin'){
+                    attributeObj['strokeLinejoin'] = attribute.nodeValue;
+                }  else if(attribute.name === 'strokewidth'){
+                    attributeObj['strokeWidth'] = attribute.nodeValue;
+                }  else if(attribute.name === 'clippath'){
+                    attributeObj['clipPath'] = attribute.nodeValue;
+                } else if(attribute.name === 'xmlspace'){
+                        attributeObj['xmlSpace'] = attribute.nodeValue;
                 } else {
                     attributeObj[attribute.name] = attribute.nodeValue;
                     // Adds inline style to svg 

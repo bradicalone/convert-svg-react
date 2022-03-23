@@ -15,7 +15,7 @@ let Button = () => {
             style: {
                 position: 'absolute',
                 left: '150px',
-                bottom: '40px',
+                bottom: '0',
                 height: '40px',
                 border: 'none',
                 padding: '0 10px',
