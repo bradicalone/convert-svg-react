@@ -34,7 +34,7 @@ class Format {
             return this.trimLines(newString)
             
         } else {
-            return string.replace(/^\s*\n/gm, '')
+            return string.replace(/^\s*\n/gm, '') 
         }
     }
 
